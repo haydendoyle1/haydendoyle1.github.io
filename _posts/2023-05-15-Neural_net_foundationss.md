@@ -13,6 +13,13 @@ In this lesson, Jeremy introduces a graph showing the metrics of different archi
 
 ## timm Models
 
+There is a compatibale library with extra models that are compatible with fastai. This library is called timm. `timm.list_models()` will return a list of models availiable within the library. To use these models within fastai learners you need to put `' '` around the model name as models from timm are from string. FastAI models dont need `''`. 
+
+Although the lesson did not mention this, I found out that to use timm models, `import timm` **MUST be called before** `from fastcore.all import *`**!!!**
+
+
+
+
 ## 
 
 
