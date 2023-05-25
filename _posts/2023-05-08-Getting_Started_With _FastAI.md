@@ -50,6 +50,7 @@ I then trained the model using the `resnet18` model and got the following metric
 | 1	| 0.148649 | 0.217734 | 0.940379 | 05:33 | 
 | 2	| 0.097789 | 0.227810 | 0.940379 | 05:35 | 
 
+This shows, that from a few simple lines of code, I could create a model to predict these classes of animals with 94% accuracy!
 
 ## Thank-you for Reading!
 This is a loonnnng post, but this first lesson is a great introduction to Deep Learning and what it's all about!
