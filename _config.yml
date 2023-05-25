@@ -6,12 +6,12 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: Hayden Doyle"'"s Github Blog!
-description: This is where the description of your site will go. You should change it by editing the _config.yml file. It can be as long as you like! Happy blogging... ❤
+title: Hayden's Blog
+description: This is a blog documeting my journey through Deep Learning!
 github_username: haydendoyle1
 
 # Email and twitter are optional:
-email:
+email: hayden2doyle@gmail.com
 twitter_username:
 
 # Set this to true to get LaTeX math equation support
