@@ -37,6 +37,16 @@ Following the lesson I created my own image classifier that can classify 10 diff
 9. Dingo
 10. Whale
 
+I downloaded 200 photos of each of these animals and put them into a Datablock. An example of the images in this Datablock with all of the animals is shown here:
+
+![](/images/allclasses.png "Example Data for Model")
+
+I then trained the model using the `resnet18` model and got the following metrics:
+
+| epoch | train_loss | accuracy | time |
+|-|-|-|-|
+| A thing | Another thing | A | B |
+
 
 ## Thank-you for Reading!
 This is a loonnnng post, but this first lesson is a great introduction to Deep Learning and what it's all about!
