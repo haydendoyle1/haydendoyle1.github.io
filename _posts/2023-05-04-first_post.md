@@ -1,4 +1,4 @@
 # Hello
 ## This is my first post
 ### Blog
-ELEC4630
+This is my first time using Github Pages. I am testing how the pages work. 
