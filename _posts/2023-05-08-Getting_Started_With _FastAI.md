@@ -26,16 +26,16 @@ Also mentioned in this lesson is collaborative filtersing where it trains a litt
 ## My own Classifier
 Following the lesson I created my own image classifier that can classify 10 different animals:
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
+1. Kangaroo
+2. Wombat
+3. Koala
+4. Echidna
+5. Cow
+6. Emu
+7. Crocodile
+8. Camel
+9. Dingo
+10. Whale
 
 
 ## Thank-you for Reading!
