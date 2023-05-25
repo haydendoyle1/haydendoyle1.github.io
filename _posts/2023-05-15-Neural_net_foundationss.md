@@ -2,4 +2,4 @@
 
 Here is what I learnt from [lesson 3](https://course.fast.ai/Lessons/lesson3.html) of the FastAI course. 
 
-![](images/whichmodelsarebest.png "Reference This: What Models are Best?")
+![](/images/whichmodelsarebest.png "Reference This: What Models are Best?")
