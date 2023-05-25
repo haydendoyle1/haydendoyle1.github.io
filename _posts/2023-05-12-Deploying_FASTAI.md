@@ -19,7 +19,7 @@ There are several different resizing methods: `pad`, `squish`, `RandomResizeCrop
 
 The data can be visualised using confusion matrices, which only really make sense when the labels are categories. I applied this to my model from Lesson 1, and got the following results:
 
-![](/images/confusion.png "Confusion Matrix for Animal Classifier"
+![](/images/confusion.png "Confusion Matrix for Animal Classifier")
 
 ## Cleaner
 
@@ -27,7 +27,7 @@ There is a built in cleaner within the fastai library which can be used to clean
 
 Here are the top losses from my model in lesson 1:
 
-![](/images/toplosses.png "Top Losses for Animal Classifier"
+![](/images/toplosses.png.png "Top Losses for Animal Classifier")
 
 As you can see in this, there are some images that should not belong here. Hence the `ImageClassifierCleaner`, will be used to remove these unwanted images. 
 
