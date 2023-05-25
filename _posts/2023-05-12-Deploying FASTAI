@@ -1,3 +1,13 @@
 # Deploying **[FASTAI](https://www.fast.ai/)**
 
 Here is what I learnt from [lesson 2](https://course.fast.ai/Lessons/lesson2.html) of the FastAI course. 
+
+
+
+
+
+
+
+
+
+Although this lesson presented a great way to deploy a model to [Hugging Face Space](https://huggingface.co/spaces) with [Gradio](https://gradio.app/), I did not follow along and create my own application using these. However, I would like to implement a model I create into my own web-based application/site when I get more experience. 
