@@ -39,7 +39,9 @@ After demonstrating how to use the cleaner, the lesson progresses towards using 
 
 Jeremy also shows how to easily convert from a Jupyter notebook to a python script using a Jupyter extension. 
 
-## Thank-you!
+## How many epochs?
 
 This lesson also briefly talks about how many epochs you should do. The answer wasn't directly given and really should be based on the percentage error you get. However, if you train the model for too long, the error rate can start to get worse...
 
+## Thank-you!
+Thank you for reading.
