@@ -16,4 +16,5 @@ In this lesson, Jeremy introduces a graph showing the metrics of different archi
 ## 
 
 
-[^1]: Based off Assignment 3 Question 2 from ELEC4630 - Image Processing and Computer Vision
+[^1]: [1] “Which image models are best?” https://kaggle.com/code/jhoward/which-image-models-are-best (accessed May 15, 2023).
+
