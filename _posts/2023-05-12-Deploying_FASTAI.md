@@ -13,7 +13,7 @@ In this lesson, Dr Jeremy Howard demonstrates how a model such as the one create
 
 There are several different resizing methods: `pad`, `squish`, `RandomResizeCrop`, `aug_transform`
 
-![](/images/transforms.png "Resizing methods applied to Image"
+![](/images/transforms.png "Resizing methods applied to Image")
 
 ## Confusion Matrices
 
