@@ -1,5 +1,10 @@
 # Getting Started With **[FASTAI](https://www.fast.ai/)**
 
+1. TOC
+{:toc}
+
+## Lesson 1 Learnings
+
 Here is what I learnt from [lesson 1](https://course.fast.ai/Lessons/lesson1.html) of the FastAI course. 
 
 In Deep learning you start with a random neural net, feed it examples and it learns to recognise things. The model creates the layers for itself and the deeper you get the more sophiticated the features get. Hence, there is no need to hand code the features as you may do in Machine Learning. This means that recognition we never thought was possible by machines is now easier than ever!
@@ -18,4 +23,20 @@ What about other models? This lesson uses a computer vision model but deep learn
 
 Also mentioned in this lesson is collaborative filtersing where it trains a little lower and higher of maximum and minimum points. The valid_loss column in the training table shows the Mean Squared Error (MSE) of the model. `learn.show_results()` shows the rating and predicted rating of the model. 
 
+## My own Classifier
+Following the lesson I created my own image classifier that can classify 10 different animals:
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+
+
+## Thank-you for Reading!
 This is a loonnnng post, but this first lesson is a great introduction to Deep Learning and what it's all about!
