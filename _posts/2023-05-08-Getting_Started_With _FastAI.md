@@ -43,7 +43,7 @@ I downloaded 200 photos of each of these animals and put them into a Datablock. 
 
 I then trained the model using the `resnet18` model and got the following metrics:
 
-| epoch | train_loss | accuracy | time |
+| **epoch** | **train_loss** | **accuracy** | **time** |
 |-|-|-|-|
 | A thing | Another thing | A | B |
 
