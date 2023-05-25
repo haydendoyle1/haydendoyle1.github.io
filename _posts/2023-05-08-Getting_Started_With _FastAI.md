@@ -52,5 +52,13 @@ I then trained the model using the `resnet18` model and got the following metric
 
 This shows, that from a few simple lines of code, I could create a model to predict these classes of animals with 94% accuracy!
 
+I then tried the model out on a random image from google that I have here:
+
+![](/images/wom.png "Wombat Test Image")
+
+The results from `learn.predict()` are shown here:
+
+![](/images/prediction.png "Wombat Test Prediction")
+
 ## Thank-you for Reading!
 This is a loonnnng post, but this first lesson is a great introduction to Deep Learning and what it's all about!
