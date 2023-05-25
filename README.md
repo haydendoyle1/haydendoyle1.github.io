@@ -1,3 +1,6 @@
-# Your blog
+# Hayden's Blog
 
-This is the repository for your blog! Click *_config.yml* above to get started and fill in the details. Then click *index.md* and edit it to start creating your home page.
+This is the repository for my blog! 
+Click here to navigate to the blog:
+
+https://haydendoyle1.github.io/
