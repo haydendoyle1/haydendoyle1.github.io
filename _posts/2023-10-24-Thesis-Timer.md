@@ -33,7 +33,7 @@
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
     // Calculate the number of pages left and pages per day
-    var pagesLeft = totalPages - (totalPages / (days + 1));
+    var pagesLeft = totalPages;
     var pagesPerDay = pagesLeft / days;
 
     // Display the countdown in the "timer" element
