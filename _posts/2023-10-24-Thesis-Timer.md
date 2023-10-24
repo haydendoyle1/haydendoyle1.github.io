@@ -5,7 +5,6 @@
     Pages Left: 
     <input type="number" id="pages-input" min="0" value="25" oninput="updatePages()">
   </p>
-  <p id="pages-left"></p>
   <p id="pages-per-day"></p>
 </div>
 
@@ -40,7 +39,6 @@
     document.getElementById("timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
     // Display the number of pages left and pages per day
-    document.getElementById("pages-left").innerHTML = "Pages Left: " + pagesLeft.toFixed(2);
     document.getElementById("pages-per-day").innerHTML = "Pages/Day: " + pagesPerDay.toFixed(2);
 
     // If the countdown is over, display a message
