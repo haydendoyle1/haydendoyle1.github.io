@@ -11,7 +11,7 @@
 
 <script>
   // Set the date we're counting down to
-  var countDownDate = new Date("Nov 6, 2024 15:00:00").getTime;
+  var countDownDate = new Date("Nov 6, 2023 15:00:00").getTime;
   // Initialize totalPages
   var totalPages = 500;
 
