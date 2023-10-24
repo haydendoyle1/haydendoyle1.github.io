@@ -1,10 +1,9 @@
 <div id="countdown">
-  <h1>Countdown until Thesis is Due</h1>
+  <h1>Countdown Timer</h1>
   <p id="timer"></p>
   <p>
     Pages Left: 
-    <input type="number" id="pages-input" min="0" value="500">
-    <button onclick="updatePages()">Update</button>
+    <input type="number" id="pages-input" min="0" value="25" oninput="updatePages()">
   </p>
   <p id="pages-left"></p>
   <p id="pages-per-day"></p>
@@ -12,7 +11,7 @@
 
 <script>
   // Set the date we're counting down to
-  var countDownDate = new Date("Nov 6, 2023 15:00:00").getTime();
+  var countDownDate = new Date("Nov 6, 2024 15:00:00").getTime;
   // Initialize totalPages
   var totalPages = 500;
 
