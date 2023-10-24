@@ -1,5 +1,5 @@
 <div id="countdown">
-  <h1>Countdown Timer</h1>
+  <h1>Countdown until Thesis is Due</h1>
   <p id="timer"></p>
   <p>
     Pages Left: 
