@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>Score Tracker</title>
+
+<style>
+  body { font-family: sans-serif; padding: 20px; max-width: 700px; margin: auto; }
+  h1 { text-align: center; }
+  .player { margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  input[type="number"] { width: 60px; margin-left: 5px; }
+  button, select { margin-left: 5px; padding: 5px 10px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { border: 1px solid #ccc; padding: 5px; text-align: center; }
+  .total { font-weight: bold; background: #f0f0f0; }
+  input[readonly], select:disabled { background: #eee; }
+</style>
+</head>
+
+<body>
+
+<h1>Score Tracker</h1>
+
+<div>
+  <strong>Game:</strong>
+  <select id="gameSelect" onchange="loadSelectedGame()"></select>
+  <button onclick="newGame()">New Game</button>
+  <button onclick="saveGame()">💾 Save</button>
+</div>
+
+<hr>
+
+<div>
+  <input id="newPlayerName" placeholder="Enter player name">
+  <button onclick="addPlayer()">Add Player</button>
+</div>
+
+<div id="players"></div>
+
+<h3>Round: <span id="round">0</span></h3>
+<button onclick="addRound()">Add / Complete Round</button>
+
+<table id="scoreTable">
+  <thead>
+    <tr><th>Round</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+/* ---------- GLOBAL STORE ---------- */
+let store = JSON.parse(localStorage.getItem("scoreTrackerStore")) || {
+  games: {},
+  currentGameId: null,
+  nextGameNumber: 1
+};
+
+let players = [];
+let round = 0;
+let rounds = [];
+let currentGameId = null;
+
+/* ---------- GAME MANAGEMENT ---------- */
+function newGame() {
+  const id = `game-${store.nextGameNumber++}`;
+  store.games[id] = { players: [], round: 0, rounds: [] };
+  store.currentGameId = id;
+  persistStore();
+  loadGame(id);
+}
+
+function loadGame(id) {
+  const game = store.games[id];
+  if (!game) return;
+
+  currentGameId = id;
+  players = JSON.parse(JSON.stringify(game.players));
+  round = game.round;
+  rounds = JSON.parse(JSON.stringify(game.rounds));
+
+  document.getElementById("round").textContent = round;
+  renderPlayers();
+  renderTableHeader();
+  rebuildTable();
+  refreshGameSelect();
+}
+
+function loadSelectedGame() {
+  const id = document.getElementById("gameSelect").value;
+  store.currentGameId = id;
+  persistStore();
+  loadGame(id);
+}
+
+function saveGame() {
+  if (!currentGameId) return;
+  store.games[currentGameId] = { players, round, rounds };
+  persistStore();
+}
+
+function persistStore() {
+  localStorage.setItem("scoreTrackerStore", JSON.stringify(store));
+}
+
+/* ---------- UI ---------- */
+function refreshGameSelect() {
+  const select = document.getElementById("gameSelect");
+  select.innerHTML = "";
+  Object.keys(store.games).forEach(id => {
+    const opt = document.createElement("option");
+    opt.value = id;
+    opt.textContent = id;
+    if (id === currentGameId) opt.selected = true;
+    select.appendChild(opt);
+  });
+}
+
+/* ---------- PLAYERS ---------- */
+function addPlayer() {
+  const input = document.getElementById("newPlayerName");
+  if (!input.value.trim()) return;
+  players.push({ name: input.value.trim(), total: 0 });
+  input.value = "";
+  renderPlayers();
+  renderTableHeader();
+  saveGame();
+}
+
+function renderPlayers() {
+  const div = document.getElementById("players");
+  div.innerHTML = "";
+  players.forEach((p, i) => {
+    div.innerHTML += `
+      <div class="player">
+        <span>${p.name} - Total: ${p.total}</span>
+        <button onclick="removePlayer(${i})">Remove</button>
+      </div>`;
+  });
+}
+
+function removePlayer(index) {
+  players.splice(index, 1);
+  renderPlayers();
+  renderTableHeader();
+  rebuildTable();
+  saveGame();
+}
+
+/* ---------- TABLE HEADER ---------- */
+function renderTableHeader() {
+  const tr = document.querySelector("#scoreTable thead tr");
+  tr.innerHTML = "<th>Round</th>";
+  players.forEach(p => tr.innerHTML += `<th>${p.name}</th>`);
+  tr.innerHTML += "<th>Winner</th><th>Total After Round</th>";
+}
+
+/* ---------- ROUNDS ---------- */
+function addRound() {
+  if (players.length === 0) return alert("Add players first");
+
+  // Complete current round if it exists and is not completed
+  if (round > 0 && rounds[round - 1] && !rounds[round - 1].completed) {
+    const r = rounds[round - 1];
+
+    for (let i = 0; i < players.length; i++) {
+      const input = document.getElementById(`score-${round}-${i}`);
+      if (!input || input.value === "") return alert("Enter all scores");
+      r.scores[i] = parseInt(input.value, 10);
+      input.readOnly = true;
+    }
+
+    const winnerSelect = document.getElementById(`winner-${round}`);
+    if (!winnerSelect || winnerSelect.value === "") return alert("Select winner");
+    r.winnerIndex = parseInt(winnerSelect.value);
+    winnerSelect.disabled = true;
+
+    const min = Math.min(...r.scores);
+    const count = r.scores.filter(s => s === min).length;
+
+    if (r.scores[r.winnerIndex] === min && count === 1)
+      r.scores[r.winnerIndex] -= 5;
+    else if (count === 1)
+      r.scores[r.winnerIndex] += 15;
+
+    players.forEach((p, i) => p.total += r.scores[i]);
+    document.getElementById(`round-total-${round}`).textContent =
+      players.map(p => p.total).join(", ");
+
+    r.completed = true;
+  }
+
+  // Start new round
+  round++;
+  rounds.push({
+    scores: Array(players.length).fill(null),
+    winnerIndex: null,
+    completed: false
+  });
+
+  document.getElementById("round").textContent = round;
+
+  const tbody = document.querySelector("#scoreTable tbody");
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td>${round}</td>`;
+
+  players.forEach((_, i) => {
+    tr.innerHTML += `<td><input type="number" id="score-${round}-${i}"></td>`;
+  });
+
+  let winnerHTML = `<td><select id="winner-${round}">
+    <option value="">Select Winner</option>`;
+  players.forEach((p, i) => winnerHTML += `<option value="${i}">${p.name}</option>`);
+  winnerHTML += `</select></td>`;
+
+  tr.innerHTML += winnerHTML;
+  tr.innerHTML += `<td id="round-total-${round}" class="total">-</td>`;
+  tbody.appendChild(tr);
+
+  saveGame();
+}
+
+/* ---------- REBUILD TABLE ---------- */
+function rebuildTable() {
+  const tbody = document.querySelector("#scoreTable tbody");
+  tbody.innerHTML = "";
+
+  rounds.forEach((r, idx) => {
+    const rn = idx + 1;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${rn}</td>`;
+
+    players.forEach((_, i) => {
+      const readonly = r.completed ? "readonly" : "";
+      tr.innerHTML += `
+        <td>
+          <input type="number" ${readonly} value="${r.scores[i] ?? ""}" id="score-${rn}-${i}">
+        </td>`;
+    });
+
+    if (r.completed) {
+      tr.innerHTML += `<td>${players[r.winnerIndex]?.name ?? "-"}</td>`;
+    } else {
+      let w = `<td><select id="winner-${rn}">
+        <option value="">Select Winner</option>`;
+      players.forEach((p, i) => w += `<option value="${i}">${p.name}</option>`);
+      w += `</select></td>`;
+      tr.innerHTML += w;
+    }
+
+    tr.innerHTML += `<td class="total" id="round-total-${rn}">
+      ${r.completed ? players.map(p => p.total).join(", ") : "-"}
+    </td>`;
+
+    tbody.appendChild(tr);
+  });
+}
+
+/* ---------- INIT ---------- */
+if (!store.currentGameId) newGame();
+else loadGame(store.currentGameId);
+
+refreshGameSelect();
+</script>
+
+</body>
+</html>
