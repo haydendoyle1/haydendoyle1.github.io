@@ -45,9 +45,9 @@
 <div style="margin-top:10px;">
   <strong>Cabo Claim:</strong>
   Correct
-  <input type="number" id="correctPenalty" value="-5" size=5>
+  <input type="number" id="correctPenalty" value="-5">
   Incorrect
-  <input type="number" id="incorrectPenalty" value="15" size=5>
+  <input type="number" id="incorrectPenalty" value="15">
 </div>
 
 <h3>Round: <span id="round">0</span></h3>
@@ -60,7 +60,7 @@
 </table>
 
 <div style="margin-top:10px;">
-  <button onclick="addRound()">Add / Complete Round</button>
+  <button id="roundButton" onclick="addRound()">Start Game</button>
 </div>
 
 <script>
@@ -114,6 +114,7 @@ function loadGame(id) {
   renderTableHeader();
   rebuildTable();
   refreshGameSelect();
+  updateRoundButton();
 }
 
 function loadSelectedGame() {
@@ -155,6 +156,11 @@ function refreshGameSelect() {
 function lockPenaltyInputs(lock) {
   document.getElementById("correctPenalty").disabled = lock;
   document.getElementById("incorrectPenalty").disabled = lock;
+}
+
+function updateRoundButton() {
+  const btn = document.getElementById("roundButton");
+  btn.textContent = (round === 0) ? "Start Game" : "Add / Complete Round";
 }
 
 /* ---------- PLAYERS ---------- */
@@ -200,11 +206,38 @@ function renderTableHeader() {
 function addRound() {
   if (players.length === 0) return alert("Add players first");
 
-  correctPenalty = parseInt(document.getElementById("correctPenalty").value, 10);
-  incorrectPenalty = parseInt(document.getElementById("incorrectPenalty").value, 10);
-  lockPenaltyInputs(true);
+  // ----- START GAME -----
+  if (round === 0) {
+    correctPenalty = parseInt(document.getElementById("correctPenalty").value, 10);
+    incorrectPenalty = parseInt(document.getElementById("incorrectPenalty").value, 10);
 
-  if (round > 0 && !rounds[round - 1].completed) {
+    const playerList = players.map(p => `• ${p.name}`).join("\n");
+
+    const message =
+      `Start game with the following settings?\n\n` +
+      `Players:\n${playerList}\n\n` +
+      `Cabo Claim:\nCorrect: ${correctPenalty}\nIncorrect: ${incorrectPenalty}`;
+
+    if (!confirm(message)) return;
+
+    lockPenaltyInputs(true);
+
+    round = 1;
+    rounds.push({
+      scores: Array(players.length).fill(null),
+      CaboIndex: null,
+      completed: false
+    });
+
+    document.getElementById("round").textContent = round;
+    rebuildTable();
+    saveGame();
+    updateRoundButton();
+    return;
+  }
+
+  // ----- COMPLETE PREVIOUS ROUND -----
+  if (!rounds[round - 1].completed) {
     const r = rounds[round - 1];
 
     for (let i = 0; i < players.length; i++) {
@@ -231,6 +264,7 @@ function addRound() {
     r.completed = true;
   }
 
+  // ----- START NEXT ROUND -----
   round++;
   rounds.push({
     scores: Array(players.length).fill(null),
@@ -243,7 +277,7 @@ function addRound() {
   saveGame();
 }
 
-/* ---------- REBUILD TABLE (FIXED) ---------- */
+/* ---------- REBUILD TABLE ---------- */
 function rebuildTable() {
   const tbody = document.querySelector("#scoreTable tbody");
   tbody.innerHTML = "";
@@ -269,8 +303,7 @@ function rebuildTable() {
       let html = `<td><select id="Cabo-${rn}">
         <option value="">Select Cabo</option>`;
       players.forEach((p, i) => {
-        const sel = r.CaboIndex === i ? "selected" : "";
-        html += `<option value="${i}" ${sel}>${p.name}</option>`;
+        html += `<option value="${i}">${p.name}</option>`;
       });
       html += `</select></td>`;
       tr.innerHTML += html;
