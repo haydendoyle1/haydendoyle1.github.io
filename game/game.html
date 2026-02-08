@@ -42,17 +42,30 @@
 
 <div id="players"></div>
 
-<div style="margin-top:10px;">
+<style>
+  .claim-container { margin-top: 10px; font-family: sans-serif; }
+  .claim-row { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 5px; 
+    padding-left: 20px; 
+  }
+  .claim-label { 
+    width: 80px; /* Adjust this width as needed */
+    display: inline-block; 
+  }
+</style>
+
+<div class="claim-container">
   <strong>Cabo Claim:</strong>
-  <br>
-  <span style="padding-left: 20px;"></span>
-  Correct:
-  <span style="padding-left: 10px;"></span>
-  <input type="number" id="correctPenalty" value="-5">
-  <br><span style="padding-left: 20px;"></span>
-  Incorrect:
-  <span style="padding-left: 10px;"></span>
-  <input type="number" id="incorrectPenalty" value="15">
+  <div class="claim-row">
+    <span class="claim-label">Correct:</span>
+    <input type="number" id="correctPenalty" value="-5">
+  </div>
+  <div class="claim-row">
+    <span class="claim-label">Incorrect:</span>
+    <input type="number" id="incorrectPenalty" value="15">
+  </div>
 </div>
 
 <h3>Round: <span id="round">0</span></h3>
