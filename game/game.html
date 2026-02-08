@@ -60,8 +60,10 @@
   <tbody></tbody>
 </table>
 
-<button onclick="addRound()">Add / Complete Round</button>
-
+<div id="roundButton">
+  <button onclick="addRound()">Add / Complete Round</button>
+</div>
+  
 <script>
 /* ---------- GLOBAL STORE ---------- */
 let store = JSON.parse(localStorage.getItem("scoreTrackerStore")) || {
