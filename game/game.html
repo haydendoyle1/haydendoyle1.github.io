@@ -34,7 +34,7 @@
 </div>
 
 <div style="margin-top:10px;">
-  <strong>Winner Claim:</strong>
+  <strong>Cabo Claim:</strong>
   Correct
   <input type="number" id="correctPenalty" value="-5">
   Incorrect
@@ -191,7 +191,7 @@ function renderTableHeader() {
   const tr = document.querySelector("#scoreTable thead tr");
   tr.innerHTML = "<th>Round</th>";
   players.forEach(p => tr.innerHTML += `<th>${p.name}</th>`);
-  tr.innerHTML += "<th>Winner</th><th>Total After Round</th>";
+  tr.innerHTML += "<th>Cabo</th><th>Total After Round</th>";
 }
 
 /* ---------- ROUNDS ---------- */
@@ -214,18 +214,18 @@ function addRound() {
       input.readOnly = true;
     }
 
-    const winnerSelect = document.getElementById(`winner-${round}`);
-    if (!winnerSelect || winnerSelect.value === "") return alert("Select winner");
-    r.winnerIndex = parseInt(winnerSelect.value);
-    winnerSelect.disabled = true;
+    const CaboSelect = document.getElementById(`Cabo-${round}`);
+    if (!CaboSelect || CaboSelect.value === "") return alert("Select Cabo");
+    r.CaboIndex = parseInt(CaboSelect.value);
+    CaboSelect.disabled = true;
 
     const min = Math.min(...r.scores);
     const count = r.scores.filter(s => s === min).length;
 
-    if (r.scores[r.winnerIndex] === min && count === 1)
-      r.scores[r.winnerIndex] += correctPenalty;
+    if (r.scores[r.CaboIndex] === min && count === 1)
+      r.scores[r.CaboIndex] += correctPenalty;
     else if (count === 1)
-      r.scores[r.winnerIndex] += incorrectPenalty;
+      r.scores[r.CaboIndex] += incorrectPenalty;
 
     players.forEach((p, i) => p.total += r.scores[i]);
     document.getElementById(`round-total-${round}`).textContent =
@@ -238,7 +238,7 @@ function addRound() {
   round++;
   rounds.push({
     scores: Array(players.length).fill(null),
-    winnerIndex: null,
+    CaboIndex: null,
     completed: false
   });
 
@@ -252,12 +252,12 @@ function addRound() {
     tr.innerHTML += `<td><input type="number" id="score-${round}-${i}"></td>`;
   });
 
-  let winnerHTML = `<td><select id="winner-${round}">
-    <option value="">Select Winner</option>`;
-  players.forEach((p, i) => winnerHTML += `<option value="${i}">${p.name}</option>`);
-  winnerHTML += `</select></td>`;
+  let CaboHTML = `<td><select id="Cabo-${round}">
+    <option value="">Select Cabo</option>`;
+  players.forEach((p, i) => CaboHTML += `<option value="${i}">${p.name}</option>`);
+  CaboHTML += `</select></td>`;
 
-  tr.innerHTML += winnerHTML;
+  tr.innerHTML += CaboHTML;
   tr.innerHTML += `<td id="round-total-${round}" class="total">-</td>`;
   tbody.appendChild(tr);
 
@@ -282,7 +282,7 @@ function rebuildTable() {
         </td>`;
     });
 
-    tr.innerHTML += `<td>${r.completed ? players[r.winnerIndex]?.name ?? "-" : "-"}</td>`;
+    tr.innerHTML += `<td>${r.completed ? players[r.CaboIndex]?.name ?? "-" : "-"}</td>`;
     tr.innerHTML += `<td class="total">${r.completed ? players.map(p => p.total).join(", ") : "-"}</td>`;
     tbody.appendChild(tr);
   });
