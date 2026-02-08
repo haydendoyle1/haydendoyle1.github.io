@@ -52,7 +52,6 @@
 
 <h3>Round: <span id="round">0</span></h3>
 
-
 <table id="scoreTable">
   <thead>
     <tr><th>Round</th></tr>
@@ -60,10 +59,10 @@
   <tbody></tbody>
 </table>
 
-<div id="roundButton" style="margin-top:10px;">
+<div style="margin-top:10px;">
   <button onclick="addRound()">Add / Complete Round</button>
 </div>
-  
+
 <script>
 /* ---------- GLOBAL STORE ---------- */
 let store = JSON.parse(localStorage.getItem("scoreTrackerStore")) || {
@@ -126,7 +125,6 @@ function loadSelectedGame() {
 
 function saveGame() {
   if (!currentGameId) return;
-
   store.games[currentGameId] = {
     players,
     round,
@@ -202,13 +200,11 @@ function renderTableHeader() {
 function addRound() {
   if (players.length === 0) return alert("Add players first");
 
-  // lock penalties once first round begins
   correctPenalty = parseInt(document.getElementById("correctPenalty").value, 10);
   incorrectPenalty = parseInt(document.getElementById("incorrectPenalty").value, 10);
   lockPenaltyInputs(true);
 
-  // Complete previous round
-  if (round > 0 && rounds[round - 1] && !rounds[round - 1].completed) {
+  if (round > 0 && !rounds[round - 1].completed) {
     const r = rounds[round - 1];
 
     for (let i = 0; i < players.length; i++) {
@@ -218,10 +214,10 @@ function addRound() {
       input.readOnly = true;
     }
 
-    const CaboSelect = document.getElementById(`Cabo-${round}`);
-    if (!CaboSelect || CaboSelect.value === "") return alert("Select Cabo");
-    r.CaboIndex = parseInt(CaboSelect.value);
-    CaboSelect.disabled = true;
+    const caboSelect = document.getElementById(`Cabo-${round}`);
+    if (!caboSelect || caboSelect.value === "") return alert("Select Cabo");
+    r.CaboIndex = parseInt(caboSelect.value);
+    caboSelect.disabled = true;
 
     const min = Math.min(...r.scores);
     const count = r.scores.filter(s => s === min).length;
@@ -232,13 +228,9 @@ function addRound() {
       r.scores[r.CaboIndex] += incorrectPenalty;
 
     players.forEach((p, i) => p.total += r.scores[i]);
-    document.getElementById(`round-total-${round}`).textContent =
-      players.map(p => p.total).join(", ");
-
     r.completed = true;
   }
 
-  // New round
   round++;
   rounds.push({
     scores: Array(players.length).fill(null),
@@ -247,28 +239,11 @@ function addRound() {
   });
 
   document.getElementById("round").textContent = round;
-
-  const tbody = document.querySelector("#scoreTable tbody");
-  const tr = document.createElement("tr");
-  tr.innerHTML = `<td>${round}</td>`;
-
-  players.forEach((_, i) => {
-    tr.innerHTML += `<td><input type="number" id="score-${round}-${i}"></td>`;
-  });
-
-  let CaboHTML = `<td><select id="Cabo-${round}">
-    <option value="">Select Cabo</option>`;
-  players.forEach((p, i) => CaboHTML += `<option value="${i}">${p.name}</option>`);
-  CaboHTML += `</select></td>`;
-
-  tr.innerHTML += CaboHTML;
-  tr.innerHTML += `<td id="round-total-${round}" class="total">-</td>`;
-  tbody.appendChild(tr);
-
+  rebuildTable();
   saveGame();
 }
 
-/* ---------- REBUILD TABLE ---------- */
+/* ---------- REBUILD TABLE (FIXED) ---------- */
 function rebuildTable() {
   const tbody = document.querySelector("#scoreTable tbody");
   tbody.innerHTML = "";
@@ -279,15 +254,32 @@ function rebuildTable() {
     tr.innerHTML = `<td>${rn}</td>`;
 
     players.forEach((_, i) => {
-      const readonly = r.completed ? "readonly" : "";
       tr.innerHTML += `
         <td>
-          <input type="number" ${readonly} value="${r.scores[i] ?? ""}" id="score-${rn}-${i}">
+          <input type="number"
+            ${r.completed ? "readonly" : ""}
+            value="${r.scores[i] ?? ""}"
+            id="score-${rn}-${i}">
         </td>`;
     });
 
-    tr.innerHTML += `<td>${r.completed ? players[r.CaboIndex]?.name ?? "-" : "-"}</td>`;
-    tr.innerHTML += `<td class="total">${r.completed ? players.map(p => p.total).join(", ") : "-"}</td>`;
+    if (r.completed) {
+      tr.innerHTML += `<td>${players[r.CaboIndex]?.name ?? "-"}</td>`;
+    } else {
+      let html = `<td><select id="Cabo-${rn}">
+        <option value="">Select Cabo</option>`;
+      players.forEach((p, i) => {
+        const sel = r.CaboIndex === i ? "selected" : "";
+        html += `<option value="${i}" ${sel}>${p.name}</option>`;
+      });
+      html += `</select></td>`;
+      tr.innerHTML += html;
+    }
+
+    tr.innerHTML += `<td class="total">
+      ${r.completed ? players.map(p => p.total).join(", ") : "-"}
+    </td>`;
+
     tbody.appendChild(tr);
   });
 }
