@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +9,6 @@
 
     <meta name="theme-color" content="#111111">
 
-    <!-- PWA -->
     <link rel="manifest" href="./manifest.json">
 
     <!-- iOS -->
@@ -74,7 +73,19 @@
             margin-bottom: 16px;
         }
 
-        /* Connection */
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* ============================================================
+           BLUETOOTH / BEACIO CARD
+           ============================================================ */
+
+        .bluetooth-card {
+            border: 1px solid #333;
+        }
 
         .connection {
             display: flex;
@@ -93,6 +104,7 @@
         .status-dot {
             width: 12px;
             height: 12px;
+            min-width: 12px;
             border-radius: 50%;
             background: #777;
         }
@@ -100,6 +112,21 @@
         .status-dot.connected {
             background: #34c759;
             box-shadow: 0 0 10px rgba(52, 199, 89, 0.6);
+        }
+
+        .device-name {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #111;
+            border-radius: 10px;
+            color: #aaa;
+            font-family: monospace;
+            font-size: 13px;
+            display: none;
+        }
+
+        .device-name.visible {
+            display: block;
         }
 
         button {
@@ -122,7 +149,28 @@
             background: #ff3b30;
         }
 
-        /* Colour preview */
+        .beacio-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .beacio-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 9px;
+            border-radius: 7px;
+            background: #2c2c2e;
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        /* ============================================================
+           COLOUR PREVIEW
+           ============================================================ */
 
         .preview {
             width: 100%;
@@ -136,8 +184,6 @@
                 background 0.05s linear,
                 box-shadow 0.05s linear;
         }
-
-        /* Colour picker */
 
         input[type="color"] {
             width: 100%;
@@ -158,7 +204,9 @@
             border-radius: 12px;
         }
 
-        /* Brightness */
+        /* ============================================================
+           BRIGHTNESS
+           ============================================================ */
 
         .label-row {
             display: flex;
@@ -172,7 +220,9 @@
             accent-color: #007aff;
         }
 
-        /* RGB values */
+        /* ============================================================
+           RGB
+           ============================================================ */
 
         .rgb {
             text-align: center;
@@ -182,7 +232,9 @@
             color: #ccc;
         }
 
-        /* Quick colours */
+        /* ============================================================
+           QUICK COLOURS
+           ============================================================ */
 
         .quick-grid {
             display: grid;
@@ -249,12 +301,6 @@
             line-height: 1.5;
             margin-top: 20px;
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            .preview {
-                transition: none;
-            }
-        }
     </style>
 </head>
 
@@ -265,8 +311,17 @@
     <h1>YD ESP32</h1>
     <div class="subtitle">LED Controller</div>
 
-    <!-- Connection -->
-    <div class="card">
+
+    <!-- ============================================================
+         BLUETOOTH / BEACIO
+         ============================================================ -->
+
+    <div class="card bluetooth-card">
+
+        <div class="card-title">
+            Bluetooth
+        </div>
+
         <div class="connection">
 
             <div class="status">
@@ -280,10 +335,36 @@
 
         </div>
 
+        <div
+            id="deviceName"
+            class="device-name">
+        </div>
+
+        <div class="beacio-info">
+
+            Bluetooth access is provided by
+            <strong>Beacio</strong>.
+
+            <br>
+
+            Tap Connect and select your ESP32
+            from the Bluetooth device list.
+
+            <div class="beacio-badge">
+                Web Bluetooth
+            </div>
+
+        </div>
+
         <div id="errorText" class="error"></div>
+
     </div>
 
-    <!-- Colour -->
+
+    <!-- ============================================================
+         COLOUR
+         ============================================================ -->
+
     <div class="card">
 
         <div id="preview" class="preview"></div>
@@ -301,7 +382,11 @@
 
     </div>
 
-    <!-- Brightness -->
+
+    <!-- ============================================================
+         BRIGHTNESS
+         ============================================================ -->
+
     <div class="card">
 
         <div class="label-row">
@@ -319,7 +404,11 @@
 
     </div>
 
-    <!-- Quick colours -->
+
+    <!-- ============================================================
+         QUICK COLOURS
+         ============================================================ -->
+
     <div class="card">
 
         <div class="label-row">
@@ -380,12 +469,14 @@
 
     </div>
 
+
     <div class="info">
         YD ESP32<br>
         Bluetooth RGB controller
     </div>
 
 </div>
+
 
 <script>
 
@@ -394,8 +485,6 @@
      * BLE CONFIGURATION
      * ============================================================
      */
-
-    const DEVICE_NAME = "YD_ESP32";
 
     const SERVICE_UUID =
         "12345678-1234-5678-1234-56789abcdef0";
@@ -435,6 +524,9 @@
     const statusDot =
         document.getElementById("statusDot");
 
+    const deviceName =
+        document.getElementById("deviceName");
+
     const errorText =
         document.getElementById("errorText");
 
@@ -456,7 +548,7 @@
 
     /*
      * ============================================================
-     * UI
+     * UI STATUS
      * ============================================================
      */
 
@@ -472,6 +564,14 @@
 
             connectButton.classList.add("disconnect");
 
+            if (bluetoothDevice) {
+
+                deviceName.textContent =
+                    `Device: ${bluetoothDevice.name || "Unknown"}`;
+
+                deviceName.classList.add("visible");
+            }
+
         } else {
 
             statusText.textContent = "Disconnected";
@@ -481,6 +581,8 @@
             connectButton.textContent = "Connect";
 
             connectButton.classList.remove("disconnect");
+
+            deviceName.classList.remove("visible");
         }
     }
 
@@ -517,11 +619,17 @@
 
     function updatePreview() {
 
-        const scale = brightness / 100;
+        const scale =
+            brightness / 100;
 
-        const r = Math.round(red * scale);
-        const g = Math.round(green * scale);
-        const b = Math.round(blue * scale);
+        const r =
+            Math.round(red * scale);
+
+        const g =
+            Math.round(green * scale);
+
+        const b =
+            Math.round(blue * scale);
 
         preview.style.background =
             `rgb(${r}, ${g}, ${b})`;
@@ -551,7 +659,7 @@
 
     /*
      * ============================================================
-     * BLE
+     * BLUETOOTH
      * ============================================================
      */
 
@@ -562,7 +670,7 @@
         if (!navigator.bluetooth) {
 
             showError(
-                "Web Bluetooth is not available in this browser."
+                "Web Bluetooth is not available. Make sure Beacio is enabled."
             );
 
             return;
@@ -570,27 +678,37 @@
 
         try {
 
-            statusText.textContent = "Selecting device...";
+            statusText.textContent =
+                "Select your ESP32...";
+
 
             /*
-             * The Connect button directly triggers
-             * requestDevice(), which is required by
-             * Web Bluetooth.
+             * ====================================================
+             * BEACIO
+             * ====================================================
+             *
+             * Beacio supports Web Bluetooth on iOS.
+             *
+             * We deliberately use acceptAllDevices instead of
+             * filtering by device name.
+             *
+             * This lets the user select YD_ESP32 from the
+             * Bluetooth device picker.
              */
 
-            bluetoothDevice =
+            const device =
                 await navigator.bluetooth.requestDevice({
 
-                    filters: [
-                        {
-                            name: DEVICE_NAME
-                        }
-                    ],
+                    acceptAllDevices: true,
 
                     optionalServices: [
                         SERVICE_UUID
                     ]
+
                 });
+
+
+            bluetoothDevice = device;
 
 
             /*
@@ -637,16 +755,19 @@
 
             setStatus(true);
 
+
             /*
-             * Send the current colour immediately
-             * after connecting.
+             * Send current colour immediately.
              */
 
             await sendRGB();
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Bluetooth error:",
+                error
+            );
 
             setStatus(false);
 
@@ -658,7 +779,8 @@
             } else {
 
                 showError(
-                    error.message || "Bluetooth connection failed."
+                    error.message ||
+                    "Bluetooth connection failed."
                 );
             }
         }
@@ -695,7 +817,7 @@
      * SEND RGB
      * ============================================================
      *
-     * ESP32 receives exactly:
+     * ESP32 receives exactly three bytes:
      *
      * Byte 0 = Red
      * Byte 1 = Green
@@ -711,7 +833,8 @@
             return;
         }
 
-        const scale = brightness / 100;
+        const scale =
+            brightness / 100;
 
         const r =
             Math.round(red * scale);
@@ -732,10 +855,6 @@
 
 
         try {
-
-            /*
-             * Prefer writeValueWithResponse where available.
-             */
 
             if (
                 typeof rgbCharacteristic.writeValueWithResponse ===
@@ -817,7 +936,7 @@
 
 
     /*
-     * Quick colour buttons
+     * Quick colours
      */
 
     document
@@ -884,7 +1003,7 @@
 
 
     /*
-     * Initial UI state
+     * Initial UI
      */
 
     updatePreview();
