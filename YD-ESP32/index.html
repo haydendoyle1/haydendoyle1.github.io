@@ -1,0 +1,896 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <meta name="theme-color" content="#111111">
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="YD ESP32">
+
+    <title>YD ESP32 LED Controller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: #111;
+            color: white;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 10px 0 5px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #1c1c1e;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        /* Connection */
+
+        .connection {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #777;
+        }
+
+        .status-dot.connected {
+            background: #34c759;
+            box-shadow: 0 0 10px rgba(52, 199, 89, 0.6);
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 13px 18px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #007aff;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        button.disconnect {
+            background: #ff3b30;
+        }
+
+        /* Colour preview */
+
+        .preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 16px;
+            background: rgb(255, 0, 0);
+            margin-bottom: 20px;
+            box-shadow:
+                0 0 30px rgba(255, 0, 0, 0.25);
+            transition:
+                background 0.05s linear,
+                box-shadow 0.05s linear;
+        }
+
+        /* Colour picker */
+
+        input[type="color"] {
+            width: 100%;
+            height: 65px;
+            padding: 0;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 12px;
+        }
+
+        /* Brightness */
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #ddd;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #007aff;
+        }
+
+        /* RGB values */
+
+        .rgb {
+            text-align: center;
+            font-family: monospace;
+            font-size: 18px;
+            margin-top: 15px;
+            color: #ccc;
+        }
+
+        /* Quick colours */
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .quick-button {
+            aspect-ratio: 1;
+            border-radius: 14px;
+            border: 2px solid rgba(255,255,255,0.1);
+            padding: 0;
+            min-width: 0;
+        }
+
+        .quick-button:active {
+            transform: scale(0.92);
+        }
+
+        .red {
+            background: rgb(255, 0, 0);
+        }
+
+        .green {
+            background: rgb(0, 255, 0);
+        }
+
+        .blue {
+            background: rgb(0, 0, 255);
+        }
+
+        .white {
+            background: rgb(255, 255, 255);
+        }
+
+        .yellow {
+            background: rgb(255, 255, 0);
+        }
+
+        .cyan {
+            background: rgb(0, 255, 255);
+        }
+
+        .magenta {
+            background: rgb(255, 0, 255);
+        }
+
+        .off {
+            background: rgb(0, 0, 0);
+        }
+
+        .error {
+            color: #ff453a;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 20px;
+            font-size: 14px;
+        }
+
+        .info {
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .preview {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>YD ESP32</h1>
+    <div class="subtitle">LED Controller</div>
+
+    <!-- Connection -->
+    <div class="card">
+        <div class="connection">
+
+            <div class="status">
+                <div id="statusDot" class="status-dot"></div>
+                <span id="statusText">Disconnected</span>
+            </div>
+
+            <button id="connectButton">
+                Connect
+            </button>
+
+        </div>
+
+        <div id="errorText" class="error"></div>
+    </div>
+
+    <!-- Colour -->
+    <div class="card">
+
+        <div id="preview" class="preview"></div>
+
+        <input
+            type="color"
+            id="colorPicker"
+            value="#ff0000"
+        >
+
+        <div class="rgb">
+            RGB:
+            <span id="rgbValue">255, 0, 0</span>
+        </div>
+
+    </div>
+
+    <!-- Brightness -->
+    <div class="card">
+
+        <div class="label-row">
+            <span>Brightness</span>
+            <span id="brightnessValue">100%</span>
+        </div>
+
+        <input
+            type="range"
+            id="brightness"
+            min="0"
+            max="100"
+            value="100"
+        >
+
+    </div>
+
+    <!-- Quick colours -->
+    <div class="card">
+
+        <div class="label-row">
+            <span>Quick colours</span>
+        </div>
+
+        <div class="quick-grid">
+
+            <button
+                class="quick-button red"
+                data-color="#ff0000"
+                aria-label="Red">
+            </button>
+
+            <button
+                class="quick-button green"
+                data-color="#00ff00"
+                aria-label="Green">
+            </button>
+
+            <button
+                class="quick-button blue"
+                data-color="#0000ff"
+                aria-label="Blue">
+            </button>
+
+            <button
+                class="quick-button white"
+                data-color="#ffffff"
+                aria-label="White">
+            </button>
+
+            <button
+                class="quick-button yellow"
+                data-color="#ffff00"
+                aria-label="Yellow">
+            </button>
+
+            <button
+                class="quick-button cyan"
+                data-color="#00ffff"
+                aria-label="Cyan">
+            </button>
+
+            <button
+                class="quick-button magenta"
+                data-color="#ff00ff"
+                aria-label="Magenta">
+            </button>
+
+            <button
+                class="quick-button off"
+                data-color="#000000"
+                aria-label="Off">
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="info">
+        YD ESP32<br>
+        Bluetooth RGB controller
+    </div>
+
+</div>
+
+<script>
+
+    /*
+     * ============================================================
+     * BLE CONFIGURATION
+     * ============================================================
+     */
+
+    const DEVICE_NAME = "YD_ESP32";
+
+    const SERVICE_UUID =
+        "12345678-1234-5678-1234-56789abcdef0";
+
+    const RGB_CHARACTERISTIC_UUID =
+        "12345678-1234-5678-1234-56789abcdef1";
+
+
+    /*
+     * ============================================================
+     * STATE
+     * ============================================================
+     */
+
+    let bluetoothDevice = null;
+    let rgbCharacteristic = null;
+
+    let red = 255;
+    let green = 0;
+    let blue = 0;
+
+    let brightness = 100;
+
+
+    /*
+     * ============================================================
+     * DOM
+     * ============================================================
+     */
+
+    const connectButton =
+        document.getElementById("connectButton");
+
+    const statusText =
+        document.getElementById("statusText");
+
+    const statusDot =
+        document.getElementById("statusDot");
+
+    const errorText =
+        document.getElementById("errorText");
+
+    const preview =
+        document.getElementById("preview");
+
+    const colorPicker =
+        document.getElementById("colorPicker");
+
+    const rgbValue =
+        document.getElementById("rgbValue");
+
+    const brightnessSlider =
+        document.getElementById("brightness");
+
+    const brightnessValue =
+        document.getElementById("brightnessValue");
+
+
+    /*
+     * ============================================================
+     * UI
+     * ============================================================
+     */
+
+    function setStatus(connected) {
+
+        if (connected) {
+
+            statusText.textContent = "Connected";
+
+            statusDot.classList.add("connected");
+
+            connectButton.textContent = "Disconnect";
+
+            connectButton.classList.add("disconnect");
+
+        } else {
+
+            statusText.textContent = "Disconnected";
+
+            statusDot.classList.remove("connected");
+
+            connectButton.textContent = "Connect";
+
+            connectButton.classList.remove("disconnect");
+        }
+    }
+
+
+    function showError(message) {
+
+        errorText.textContent = message;
+
+        setTimeout(() => {
+
+            errorText.textContent = "";
+
+        }, 5000);
+    }
+
+
+    /*
+     * ============================================================
+     * RGB / BRIGHTNESS
+     * ============================================================
+     */
+
+    function hexToRgb(hex) {
+
+        hex = hex.replace("#", "");
+
+        return {
+            r: parseInt(hex.substring(0, 2), 16),
+            g: parseInt(hex.substring(2, 4), 16),
+            b: parseInt(hex.substring(4, 6), 16)
+        };
+    }
+
+
+    function updatePreview() {
+
+        const scale = brightness / 100;
+
+        const r = Math.round(red * scale);
+        const g = Math.round(green * scale);
+        const b = Math.round(blue * scale);
+
+        preview.style.background =
+            `rgb(${r}, ${g}, ${b})`;
+
+        preview.style.boxShadow =
+            `0 0 30px rgba(${r}, ${g}, ${b}, 0.25)`;
+
+        rgbValue.textContent =
+            `${r}, ${g}, ${b}`;
+    }
+
+
+    function updateFromColorPicker() {
+
+        const colour =
+            hexToRgb(colorPicker.value);
+
+        red = colour.r;
+        green = colour.g;
+        blue = colour.b;
+
+        updatePreview();
+
+        sendRGB();
+    }
+
+
+    /*
+     * ============================================================
+     * BLE
+     * ============================================================
+     */
+
+    async function connectBluetooth() {
+
+        errorText.textContent = "";
+
+        if (!navigator.bluetooth) {
+
+            showError(
+                "Web Bluetooth is not available in this browser."
+            );
+
+            return;
+        }
+
+        try {
+
+            statusText.textContent = "Selecting device...";
+
+            /*
+             * The Connect button directly triggers
+             * requestDevice(), which is required by
+             * Web Bluetooth.
+             */
+
+            bluetoothDevice =
+                await navigator.bluetooth.requestDevice({
+
+                    filters: [
+                        {
+                            name: DEVICE_NAME
+                        }
+                    ],
+
+                    optionalServices: [
+                        SERVICE_UUID
+                    ]
+                });
+
+
+            /*
+             * Handle the ESP32 disconnecting.
+             */
+
+            bluetoothDevice.addEventListener(
+                "gattserverdisconnected",
+                handleDisconnect
+            );
+
+
+            statusText.textContent =
+                "Connecting...";
+
+
+            /*
+             * Connect to GATT server.
+             */
+
+            const server =
+                await bluetoothDevice.gatt.connect();
+
+
+            /*
+             * Get our custom service.
+             */
+
+            const service =
+                await server.getPrimaryService(
+                    SERVICE_UUID
+                );
+
+
+            /*
+             * Get RGB characteristic.
+             */
+
+            rgbCharacteristic =
+                await service.getCharacteristic(
+                    RGB_CHARACTERISTIC_UUID
+                );
+
+
+            setStatus(true);
+
+            /*
+             * Send the current colour immediately
+             * after connecting.
+             */
+
+            await sendRGB();
+
+        } catch (error) {
+
+            console.error(error);
+
+            setStatus(false);
+
+            if (error.name === "NotFoundError") {
+
+                statusText.textContent =
+                    "No device selected";
+
+            } else {
+
+                showError(
+                    error.message || "Bluetooth connection failed."
+                );
+            }
+        }
+    }
+
+
+    function handleDisconnect() {
+
+        rgbCharacteristic = null;
+
+        setStatus(false);
+    }
+
+
+    async function disconnectBluetooth() {
+
+        if (
+            bluetoothDevice &&
+            bluetoothDevice.gatt &&
+            bluetoothDevice.gatt.connected
+        ) {
+
+            bluetoothDevice.gatt.disconnect();
+        }
+
+        rgbCharacteristic = null;
+
+        setStatus(false);
+    }
+
+
+    /*
+     * ============================================================
+     * SEND RGB
+     * ============================================================
+     *
+     * ESP32 receives exactly:
+     *
+     * Byte 0 = Red
+     * Byte 1 = Green
+     * Byte 2 = Blue
+     *
+     */
+
+    async function sendRGB() {
+
+        updatePreview();
+
+        if (!rgbCharacteristic) {
+            return;
+        }
+
+        const scale = brightness / 100;
+
+        const r =
+            Math.round(red * scale);
+
+        const g =
+            Math.round(green * scale);
+
+        const b =
+            Math.round(blue * scale);
+
+
+        const data =
+            new Uint8Array([
+                r,
+                g,
+                b
+            ]);
+
+
+        try {
+
+            /*
+             * Prefer writeValueWithResponse where available.
+             */
+
+            if (
+                typeof rgbCharacteristic.writeValueWithResponse ===
+                "function"
+            ) {
+
+                await rgbCharacteristic.writeValueWithResponse(
+                    data
+                );
+
+            } else {
+
+                await rgbCharacteristic.writeValue(
+                    data
+                );
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Failed to send RGB:",
+                error
+            );
+
+            showError(
+                "Failed to send colour to ESP32."
+            );
+        }
+    }
+
+
+    /*
+     * ============================================================
+     * EVENTS
+     * ============================================================
+     */
+
+    connectButton.addEventListener(
+        "click",
+        async () => {
+
+            if (
+                bluetoothDevice &&
+                bluetoothDevice.gatt &&
+                bluetoothDevice.gatt.connected
+            ) {
+
+                await disconnectBluetooth();
+
+            } else {
+
+                await connectBluetooth();
+            }
+        }
+    );
+
+
+    colorPicker.addEventListener(
+        "input",
+        updateFromColorPicker
+    );
+
+
+    brightnessSlider.addEventListener(
+        "input",
+        () => {
+
+            brightness =
+                Number(brightnessSlider.value);
+
+            brightnessValue.textContent =
+                `${brightness}%`;
+
+            updatePreview();
+
+            sendRGB();
+        }
+    );
+
+
+    /*
+     * Quick colour buttons
+     */
+
+    document
+        .querySelectorAll(".quick-button")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const colour =
+                        button.dataset.color;
+
+                    colorPicker.value =
+                        colour;
+
+                    const rgb =
+                        hexToRgb(colour);
+
+                    red = rgb.r;
+                    green = rgb.g;
+                    blue = rgb.b;
+
+                    updatePreview();
+
+                    sendRGB();
+                }
+            );
+        });
+
+
+    /*
+     * ============================================================
+     * SERVICE WORKER / OFFLINE SUPPORT
+     * ============================================================
+     */
+
+    if ("serviceWorker" in navigator) {
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                navigator.serviceWorker
+                    .register("./sw.js")
+                    .then(registration => {
+
+                        console.log(
+                            "Service worker registered:",
+                            registration.scope
+                        );
+
+                    })
+                    .catch(error => {
+
+                        console.error(
+                            "Service worker registration failed:",
+                            error
+                        );
+                    });
+            }
+        );
+    }
+
+
+    /*
+     * Initial UI state
+     */
+
+    updatePreview();
+
+</script>
+
+</body>
+</html>
+```
