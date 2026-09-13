@@ -1,360 +1,333 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover"
-    >
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#111111">
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+>
+
+<link rel="manifest" href="./manifest.json">
+
+<title>YD ESP32</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 40px;
+
+    background: #111;
+    color: white;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+h1 {
+    margin: 5px 0 20px;
+    font-size: 28px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.card {
+    background: #1c1c1e;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 14px;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #666;
+}
+
+.status-dot.connected {
+    background: #30d158;
+}
 
-    <meta name="theme-color" content="#111111">
+button {
+    border: none;
+    border-radius: 12px;
 
-    <meta
-        name="apple-mobile-web-app-capable"
-        content="yes"
-    >
+    padding: 12px 18px;
 
-    <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black-translucent"
-    >
+    font-size: 16px;
+    font-weight: 600;
 
-    <link rel="manifest" href="./manifest.json">
+    cursor: pointer;
 
-    <title>YD ESP32</title>
+    background: #2c2c2e;
+    color: white;
+}
 
-    <style>
+button:active {
+    opacity: 0.7;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+button.disconnect {
+    background: #ff453a;
+}
 
-        body {
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 40px;
-
-            background: #111;
-            color: white;
+.error {
+    color: #ff453a;
+    font-size: 13px;
+    margin-top: 10px;
+    word-break: break-word;
+}
 
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-        }
+.success {
+    color: #30d158;
+}
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            margin: auto;
-        }
+.muted {
+    color: #888;
+}
 
-        h1 {
-            margin: 5px 0 20px;
-            font-size: 28px;
-        }
 
-        h2 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .card {
-            background: #1c1c1e;
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 14px;
-        }
-
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            margin-top: 6px;
+/* ================================================================ */
+/* BATTERY                                                          */
+/* ================================================================ */
 
-            font-size: 14px;
-            color: #aaa;
-        }
+.battery {
+    text-align: center;
+}
 
-        .status-dot {
-            width: 10px;
-            height: 10px;
+.soc-circle {
 
-            border-radius: 50%;
+    width: 150px;
+    height: 150px;
 
-            background: #666;
-        }
+    border-radius: 50%;
 
-        .status-dot.connected {
-            background: #30d158;
-        }
+    margin: 15px auto;
 
-        button {
-            border: none;
-            border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            padding: 12px 18px;
+    background:
+        radial-gradient(
+            circle,
+            #1c1c1e 58%,
+            transparent 59%
+        ),
+        conic-gradient(
+            #30d158 0%,
+            #333 0%
+        );
+}
 
-            font-size: 16px;
-            font-weight: 600;
+.soc-value {
+    font-size: 34px;
+    font-weight: 700;
+}
 
-            cursor: pointer;
+.soc-label {
+    font-size: 13px;
+    color: #aaa;
+}
 
-            background: #2c2c2e;
-            color: white;
-        }
+.values {
 
-        button:active {
-            opacity: 0.7;
-        }
+    display: grid;
 
-        button.primary {
-            background: #0a84ff;
-            width: 100%;
-            margin-top: 15px;
-        }
+    grid-template-columns:
+        repeat(3, 1fr);
 
-        button.disconnect {
-            background: #ff453a;
-        }
+    gap: 8px;
 
-        /*
-         * ----------------------------------------------------------
-         * BATTERY
-         * ----------------------------------------------------------
-         */
+    margin-top: 15px;
+}
 
-        .battery {
-            text-align: center;
-        }
+.value-box {
 
-        .soc-circle {
+    background: #2c2c2e;
 
-            width: 150px;
-            height: 150px;
+    border-radius: 12px;
 
-            border-radius: 50%;
+    padding: 12px 5px;
 
-            margin: 15px auto;
+    text-align: center;
+}
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+.value {
+    font-size: 17px;
+    font-weight: 600;
+}
 
-            background:
-                radial-gradient(
-                    circle,
-                    #1c1c1e 58%,
-                    transparent 59%
-                ),
-                conic-gradient(
-                    #30d158 0%,
-                    #30d158 0%,
-                    #333 0%
-                );
-        }
+.label {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
 
-        .soc-value {
-            font-size: 34px;
-            font-weight: 700;
-        }
 
-        .soc-label {
-            font-size: 13px;
-            color: #aaa;
-        }
+/* ================================================================ */
+/* CIRCUITS                                                         */
+/* ================================================================ */
 
-        .values {
+.circuit {
 
-            display: grid;
+    margin-top: 12px;
 
-            grid-template-columns:
-                repeat(3, 1fr);
+    padding: 15px;
 
-            gap: 8px;
+    background: #2c2c2e;
 
-            margin-top: 15px;
-        }
+    border-radius: 14px;
+}
 
-        .value-box {
+.circuit:first-child {
+    margin-top: 15px;
+}
 
-            background: #2c2c2e;
+.circuit-header {
 
-            border-radius: 12px;
+    display: flex;
 
-            padding: 12px 5px;
+    justify-content: space-between;
+    align-items: center;
 
-            text-align: center;
-        }
+    margin-bottom: 10px;
+}
 
-        .value {
-            font-size: 17px;
-            font-weight: 600;
-        }
+.circuit-name {
+    font-size: 17px;
+    font-weight: 600;
+}
 
-        .label {
-            font-size: 12px;
-            color: #999;
-            margin-top: 4px;
-        }
+.circuit-state {
 
-        /*
-         * ----------------------------------------------------------
-         * CIRCUITS
-         * ----------------------------------------------------------
-         */
+    font-size: 13px;
 
-        .circuit {
+    color: #999;
 
-            margin-top: 12px;
+    font-weight: 600;
+}
 
-            padding: 15px;
+.circuit-state.on {
+    color: #30d158;
+}
 
-            background: #2c2c2e;
+.circuit-buttons {
 
-            border-radius: 14px;
-        }
+    display: grid;
 
-        .circuit:first-child {
-            margin-top: 15px;
-        }
+    grid-template-columns:
+        1fr 1fr;
 
-        .circuit-header {
+    gap: 8px;
 
-            display: flex;
+    margin-top: 12px;
+}
 
-            justify-content: space-between;
-            align-items: center;
+.on-button.active {
 
-            margin-bottom: 10px;
-        }
+    background: #30d158;
 
-        .circuit-name {
+    color: #000;
+}
 
-            font-size: 17px;
-            font-weight: 600;
-        }
+.off-button.active {
 
-        .circuit-state {
+    background: #ff453a;
 
-            font-size: 13px;
+    color: white;
+}
 
-            color: #999;
 
-            font-weight: 600;
-        }
+/* ================================================================ */
+/* PACKET INFO                                                      */
+/* ================================================================ */
 
-        .circuit-state.on {
-            color: #30d158;
-        }
+.packet-grid {
 
-        .circuit-buttons {
+    display: grid;
 
-            display: grid;
+    grid-template-columns:
+        1fr 1fr;
 
-            grid-template-columns:
-                1fr 1fr;
+    gap: 8px;
 
-            gap: 8px;
+    margin-top: 12px;
+}
 
-            margin-top: 12px;
-        }
+.packet-item {
 
-        /*
-         * ON button when circuit is actually ON
-         */
+    background: #2c2c2e;
 
-        .on-button.active {
+    padding: 10px;
 
-            background: #30d158;
+    border-radius: 10px;
+}
 
-            color: #000;
-        }
+.packet-title {
 
-        /*
-         * OFF button when circuit is actually OFF
-         */
+    font-size: 11px;
 
-        .off-button.active {
+    color: #999;
+}
 
-            background: #ff453a;
+.packet-value {
 
-            color: white;
-        }
+    margin-top: 3px;
 
-        /*
-         * ----------------------------------------------------------
-         * PACKET DEBUG
-         * ----------------------------------------------------------
-         */
+    font-size: 15px;
+}
 
-        .packet-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 8px;
-
-            margin-top: 12px;
-        }
-
-        .packet-item {
-
-            background: #2c2c2e;
-
-            padding: 10px;
-
-            border-radius: 10px;
-        }
-
-        .packet-title {
-
-            font-size: 11px;
-
-            color: #999;
-        }
-
-        .packet-value {
-
-            margin-top: 3px;
-
-            font-size: 15px;
-        }
-
-        .error {
-
-            color: #ff453a;
-
-            font-size: 13px;
-
-            margin-top: 10px;
-
-            word-break: break-word;
-        }
-
-        .success {
-            color: #30d158;
-        }
-
-        .muted {
-            color: #888;
-        }
-
-    </style>
+</style>
 
 </head>
 
@@ -363,82 +336,165 @@
 
 <div class="container">
 
-    <h1>YD ESP32</h1>
+<h1>YD ESP32</h1>
 
 
-    <!-- ========================================================= -->
-    <!-- BLUETOOTH                                                  -->
-    <!-- ========================================================= -->
+<!-- ============================================================ -->
+<!-- BLUETOOTH                                                     -->
+<!-- ============================================================ -->
 
-    <div class="card">
+<div class="card">
 
-        <div class="header-row">
+    <div class="header-row">
 
-            <div>
+        <div>
 
-                <h2>Bluetooth</h2>
+            <h2>Bluetooth</h2>
 
-                <div class="status">
+            <div class="status">
 
-                    <div
-                        id="statusDot"
-                        class="status-dot"
-                    ></div>
+                <div
+                    id="statusDot"
+                    class="status-dot"
+                ></div>
 
-                    <span id="connectionStatus">
-                        Disconnected
-                    </span>
-
-                </div>
+                <span id="connectionStatus">
+                    Disconnected
+                </span>
 
             </div>
-
-
-            <button
-                id="connectButton"
-                onclick="connectButtonPressed()"
-            >
-                Connect
-            </button>
 
         </div>
 
 
-        <div
-            id="errorMessage"
-            class="error"
-        ></div>
+        <button
+            id="connectButton"
+            onclick="connectButtonPressed()"
+        >
+            Connect
+        </button>
 
     </div>
 
 
-    <!-- ========================================================= -->
-    <!-- BATTERY                                                    -->
-    <!-- ========================================================= -->
+    <div
+        id="errorMessage"
+        class="error"
+    ></div>
 
-    <div class="card battery">
-
-        <h2>Battery</h2>
+</div>
 
 
-        <div
-            id="socCircle"
-            class="soc-circle"
-        >
+<!-- ============================================================ -->
+<!-- BATTERY                                                       -->
+<!-- ============================================================ -->
 
-            <div>
+<div class="card battery">
 
-                <div
-                    id="socValue"
-                    class="soc-value"
-                >
-                    --%
-                </div>
+    <h2>Battery</h2>
 
-                <div class="soc-label">
-                    SOC
-                </div>
 
+    <div
+        id="socCircle"
+        class="soc-circle"
+    >
+
+        <div>
+
+            <div
+                id="socValue"
+                class="soc-value"
+            >
+                --%
+            </div>
+
+            <div class="soc-label">
+                SOC
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="values">
+
+        <div class="value-box">
+
+            <div
+                id="batteryVoltage"
+                class="value"
+            >
+                -- V
+            </div>
+
+            <div class="label">
+                Voltage
+            </div>
+
+        </div>
+
+
+        <div class="value-box">
+
+            <div
+                id="batteryCurrent"
+                class="value"
+            >
+                -- A
+            </div>
+
+            <div class="label">
+                Current
+            </div>
+
+        </div>
+
+
+        <div class="value-box">
+
+            <div
+                id="batteryPower"
+                class="value"
+            >
+                -- W
+            </div>
+
+            <div class="label">
+                Power
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- CIRCUITS                                                       -->
+<!-- ============================================================ -->
+
+<div class="card">
+
+    <h2>Circuits</h2>
+
+
+    <!-- CIRCUIT 1 -->
+
+    <div class="circuit">
+
+        <div class="circuit-header">
+
+            <div class="circuit-name">
+                Circuit 1
+            </div>
+
+            <div
+                id="state1"
+                class="circuit-state"
+            >
+                OFF
             </div>
 
         </div>
@@ -449,7 +505,7 @@
             <div class="value-box">
 
                 <div
-                    id="batteryVoltage"
+                    id="c1Voltage"
                     class="value"
                 >
                     -- V
@@ -465,7 +521,7 @@
             <div class="value-box">
 
                 <div
-                    id="batteryCurrent"
+                    id="c1Current"
                     class="value"
                 >
                     -- A
@@ -481,7 +537,7 @@
             <div class="value-box">
 
                 <div
-                    id="batteryPower"
+                    id="c1Power"
                     class="value"
                 >
                     -- W
@@ -495,264 +551,62 @@
 
         </div>
 
+
+        <div class="circuit-buttons">
+
+            <button
+                id="c1On"
+                class="on-button"
+                onclick="setCircuit(1, true)"
+            >
+                ON
+            </button>
+
+            <button
+                id="c1Off"
+                class="off-button"
+                onclick="setCircuit(1, false)"
+            >
+                OFF
+            </button>
+
+        </div>
+
     </div>
 
 
-    <!-- ========================================================= -->
-    <!-- CIRCUITS                                                    -->
-    <!-- ========================================================= -->
+    <!-- CIRCUIT 2 -->
 
-    <div class="card">
+    <div class="circuit">
 
-        <h2>Circuits</h2>
+        <div class="circuit-header">
 
-
-        <!-- ===================================================== -->
-        <!-- CIRCUIT 1                                               -->
-        <!-- ===================================================== -->
-
-        <div class="circuit">
-
-            <div class="circuit-header">
-
-                <div class="circuit-name">
-                    Circuit 1
-                </div>
-
-                <div
-                    id="state1"
-                    class="circuit-state"
-                >
-                    OFF
-                </div>
-
+            <div class="circuit-name">
+                Circuit 2
             </div>
 
-
-            <div class="values">
-
-                <div class="value-box">
-
-                    <div
-                        id="c1Voltage"
-                        class="value"
-                    >
-                        -- V
-                    </div>
-
-                    <div class="label">
-                        Voltage
-                    </div>
-
-                </div>
-
-
-                <div class="value-box">
-
-                    <div
-                        id="c1Current"
-                        class="value"
-                    >
-                        -- A
-                    </div>
-
-                    <div class="label">
-                        Current
-                    </div>
-
-                </div>
-
-
-                <div class="value-box">
-
-                    <div
-                        id="c1Power"
-                        class="value"
-                    >
-                        -- W
-                    </div>
-
-                    <div class="label">
-                        Power
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="circuit-buttons">
-
-                <button
-                    id="c1On"
-                    class="on-button"
-                    onclick="setCircuit(1, true)"
-                >
-                    ON
-                </button>
-
-                <button
-                    id="c1Off"
-                    class="off-button"
-                    onclick="setCircuit(1, false)"
-                >
-                    OFF
-                </button>
-
+            <div
+                id="state2"
+                class="circuit-state"
+            >
+                OFF
             </div>
 
         </div>
 
 
-        <!-- ===================================================== -->
-        <!-- CIRCUIT 2                                               -->
-        <!-- ===================================================== -->
+        <div class="values">
 
-        <div class="circuit">
-
-            <div class="circuit-header">
-
-                <div class="circuit-name">
-                    Circuit 2
-                </div>
+            <div class="value-box">
 
                 <div
-                    id="state2"
-                    class="circuit-state"
+                    id="c2Voltage"
+                    class="value"
                 >
-                    OFF
+                    -- V
                 </div>
 
-            </div>
-
-
-            <div class="values">
-
-                <div class="value-box">
-
-                    <div
-                        id="c2Voltage"
-                        class="value"
-                    >
-                        -- V
-                    </div>
-
-                    <div class="label">
-                        Voltage
-                    </div>
-
+                <div class="label">
+                    Voltage
                 </div>
-
-
-                <div class="value-box">
-
-                    <div
-                        id="c2Current"
-                        class="value"
-                    >
-                        -- A
-                    </div>
-
-                    <div class="label">
-                        Current
-                    </div>
-
-                </div>
-
-
-                <div class="value-box">
-
-                    <div
-                        id="c2Power"
-                        class="value"
-                    >
-                        -- W
-                    </div>
-
-                    <div class="label">
-                        Power
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="circuit-buttons">
-
-                <button
-                    id="c2On"
-                    class="on-button"
-                    onclick="setCircuit(2, true)"
-                >
-                    ON
-                </button>
-
-                <button
-                    id="c2Off"
-                    class="off-button"
-                    onclick="setCircuit(2, false)"
-                >
-                    OFF
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- ===================================================== -->
-        <!-- CIRCUIT 3                                               -->
-        <!-- ===================================================== -->
-
-        <div class="circuit">
-
-            <div class="circuit-header">
-
-                <div class="circuit-name">
-                    Circuit 3
-                </div>
-
-                <div
-                    id="state3"
-                    class="circuit-state"
-                >
-                    OFF
-                </div>
-
-            </div>
-
-
-            <div class="values">
-
-                <div class="value-box">
-
-                    <div
-                        id="c3Voltage"
-                        class="value"
-                    >
-                        -- V
-                    </div>
-
-                    <div class="label">
-                        Voltage
-                    </div>
-
-                </div>
-
-
-                <div class="value-box">
-
-                    <div
-                        id="c3Current"
-                        class="value"
-                    >
-                        -- A
-                    </div>
-
-                    <div class="label">
-                        Current
-                    </div>
-
-                </div>
-
+```
