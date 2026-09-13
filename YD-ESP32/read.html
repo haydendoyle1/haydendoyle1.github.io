@@ -4,330 +4,357 @@
 
 <head>
 
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
->
-
-<meta name="theme-color" content="#111111">
-
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
-
-<meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
->
-
-<link rel="manifest" href="./manifest.json">
-
-<title>YD ESP32</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 20px;
-    padding-bottom: 40px;
-
-    background: #111;
-    color: white;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-}
-
-.container {
-    width: 100%;
-    max-width: 500px;
-    margin: auto;
-}
-
-h1 {
-    margin: 5px 0 20px;
-    font-size: 28px;
-}
-
-h2 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.card {
-    background: #1c1c1e;
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 14px;
-}
-
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 6px;
-    font-size: 14px;
-    color: #aaa;
-}
-
-.status-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #666;
-}
-
-.status-dot.connected {
-    background: #30d158;
-}
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
 
-button {
-    border: none;
-    border-radius: 12px;
+    <meta name="theme-color" content="#111111">
 
-    padding: 12px 18px;
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
 
-    font-size: 16px;
-    font-weight: 600;
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
 
-    cursor: pointer;
+    <link rel="manifest" href="./manifest.json">
 
-    background: #2c2c2e;
-    color: white;
-}
+    <title>YD ESP32</title>
 
-button:active {
-    opacity: 0.7;
-}
+    <style>
 
-button.disconnect {
-    background: #ff453a;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.error {
-    color: #ff453a;
-    font-size: 13px;
-    margin-top: 10px;
-    word-break: break-word;
-}
+        body {
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 40px;
+
+            background: #111;
+            color: white;
 
-.success {
-    color: #30d158;
-}
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
 
-.muted {
-    color: #888;
-}
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
 
+        h1 {
+            margin: 5px 0 20px;
+            font-size: 28px;
+        }
 
-/* ================================================================ */
-/* BATTERY                                                          */
-/* ================================================================ */
+        h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .card {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-top: 6px;
 
-.battery {
-    text-align: center;
-}
+            font-size: 14px;
+            color: #aaa;
+        }
 
-.soc-circle {
+        .status-dot {
+            width: 10px;
+            height: 10px;
 
-    width: 150px;
-    height: 150px;
+            border-radius: 50%;
 
-    border-radius: 50%;
+            background: #666;
+        }
 
-    margin: 15px auto;
+        .status-dot.connected {
+            background: #30d158;
+        }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        button {
+            border: none;
+            border-radius: 12px;
 
-    background:
-        radial-gradient(
-            circle,
-            #1c1c1e 58%,
-            transparent 59%
-        ),
-        conic-gradient(
-            #30d158 0%,
-            #333 0%
-        );
-}
+            padding: 12px 18px;
 
-.soc-value {
-    font-size: 34px;
-    font-weight: 700;
-}
+            font-size: 16px;
+            font-weight: 600;
 
-.soc-label {
-    font-size: 13px;
-    color: #aaa;
-}
+            cursor: pointer;
 
-.values {
+            background: #2c2c2e;
+            color: white;
+        }
 
-    display: grid;
+        button:active {
+            opacity: 0.7;
+        }
 
-    grid-template-columns:
-        repeat(3, 1fr);
+        button.primary {
+            background: #0a84ff;
+            width: 100%;
+            margin-top: 15px;
+        }
 
-    gap: 8px;
+        button.disconnect {
+            background: #ff453a;
+        }
 
-    margin-top: 15px;
-}
+        /*
+         * ----------------------------------------------------------
+         * BATTERY
+         * ----------------------------------------------------------
+         */
 
-.value-box {
+        .battery {
+            text-align: center;
+        }
 
-    background: #2c2c2e;
+        .soc-circle {
 
-    border-radius: 12px;
+            width: 150px;
+            height: 150px;
 
-    padding: 12px 5px;
+            border-radius: 50%;
 
-    text-align: center;
-}
+            margin: 15px auto;
 
-.value {
-    font-size: 17px;
-    font-weight: 600;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-.label {
-    font-size: 12px;
-    color: #999;
-    margin-top: 4px;
-}
+            background:
+                radial-gradient(
+                    circle,
+                    #1c1c1e 58%,
+                    transparent 59%
+                ),
+                conic-gradient(
+                    #30d158 0%,
+                    #30d158 0%,
+                    #333 0%
+                );
+        }
 
+        .soc-value {
+            font-size: 34px;
+            font-weight: 700;
+        }
 
-/* ================================================================ */
-/* CIRCUITS                                                         */
-/* ================================================================ */
+        .soc-label {
+            font-size: 13px;
+            color: #aaa;
+        }
 
-.circuit {
+        .values {
 
-    margin-top: 12px;
+            display: grid;
 
-    padding: 15px;
+            grid-template-columns:
+                repeat(3, 1fr);
 
-    background: #2c2c2e;
+            gap: 8px;
 
-    border-radius: 14px;
-}
+            margin-top: 15px;
+        }
 
-.circuit:first-child {
-    margin-top: 15px;
-}
+        .value-box {
 
-.circuit-header {
+            background: #2c2c2e;
 
-    display: flex;
+            border-radius: 12px;
 
-    justify-content: space-between;
-    align-items: center;
+            padding: 12px 5px;
 
-    margin-bottom: 10px;
-}
+            text-align: center;
+        }
 
-.circuit-name {
-    font-size: 17px;
-    font-weight: 600;
-}
+        .value {
+            font-size: 17px;
+            font-weight: 600;
+        }
 
-.circuit-state {
+        .label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
 
-    font-size: 13px;
+        /*
+         * ----------------------------------------------------------
+         * CIRCUITS
+         * ----------------------------------------------------------
+         */
 
-    color: #999;
+        .circuit {
 
-    font-weight: 600;
-}
+            margin-top: 12px;
 
-.circuit-state.on {
-    color: #30d158;
-}
+            padding: 15px;
 
-.circuit-buttons {
+            background: #2c2c2e;
 
-    display: grid;
+            border-radius: 14px;
+        }
 
-    grid-template-columns:
-        1fr 1fr;
+        .circuit:first-child {
+            margin-top: 15px;
+        }
 
-    gap: 8px;
+        .circuit-header {
 
-    margin-top: 12px;
-}
+            display: flex;
 
-.on-button.active {
+            justify-content: space-between;
+            align-items: center;
 
-    background: #30d158;
+            margin-bottom: 10px;
+        }
 
-    color: #000;
-}
+        .circuit-name {
 
-.off-button.active {
+            font-size: 17px;
+            font-weight: 600;
+        }
 
-    background: #ff453a;
+        .circuit-state {
 
-    color: white;
-}
+            font-size: 13px;
 
+            color: #999;
 
-/* ================================================================ */
-/* PACKET INFO                                                      */
-/* ================================================================ */
+            font-weight: 600;
+        }
 
-.packet-grid {
+        .circuit-state.on {
+            color: #30d158;
+        }
 
-    display: grid;
+        .circuit-buttons {
 
-    grid-template-columns:
-        1fr 1fr;
+            display: grid;
 
-    gap: 8px;
+            grid-template-columns:
+                1fr 1fr;
 
-    margin-top: 12px;
-}
+            gap: 8px;
 
-.packet-item {
+            margin-top: 12px;
+        }
 
-    background: #2c2c2e;
+        /*
+         * ON button when circuit is actually ON
+         */
 
-    padding: 10px;
+        .on-button.active {
 
-    border-radius: 10px;
-}
+            background: #30d158;
 
-.packet-title {
+            color: #000;
+        }
 
-    font-size: 11px;
+        /*
+         * OFF button when circuit is actually OFF
+         */
 
-    color: #999;
-}
+        .off-button.active {
 
-.packet-value {
+            background: #ff453a;
 
-    margin-top: 3px;
+            color: white;
+        }
 
-    font-size: 15px;
-}
+        /*
+         * ----------------------------------------------------------
+         * PACKET DEBUG
+         * ----------------------------------------------------------
+         */
 
-</style>
+        .packet-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 8px;
+
+            margin-top: 12px;
+        }
+
+        .packet-item {
+
+            background: #2c2c2e;
+
+            padding: 10px;
+
+            border-radius: 10px;
+        }
+
+        .packet-title {
+
+            font-size: 11px;
+
+            color: #999;
+        }
+
+        .packet-value {
+
+            margin-top: 3px;
+
+            font-size: 15px;
+        }
+
+        .error {
+
+            color: #ff453a;
+
+            font-size: 13px;
+
+            margin-top: 10px;
+
+            word-break: break-word;
+        }
+
+        .success {
+            color: #30d158;
+        }
+
+        .muted {
+            color: #888;
+        }
+
+    </style>
 
 </head>
 
@@ -336,165 +363,82 @@ button.disconnect {
 
 <div class="container">
 
-<h1>YD ESP32</h1>
+    <h1>YD ESP32</h1>
 
 
-<!-- ============================================================ -->
-<!-- BLUETOOTH                                                     -->
-<!-- ============================================================ -->
+    <!-- ========================================================= -->
+    <!-- BLUETOOTH                                                  -->
+    <!-- ========================================================= -->
 
-<div class="card">
+    <div class="card">
 
-    <div class="header-row">
+        <div class="header-row">
 
-        <div>
+            <div>
 
-            <h2>Bluetooth</h2>
+                <h2>Bluetooth</h2>
 
-            <div class="status">
+                <div class="status">
 
-                <div
-                    id="statusDot"
-                    class="status-dot"
-                ></div>
+                    <div
+                        id="statusDot"
+                        class="status-dot"
+                    ></div>
 
-                <span id="connectionStatus">
-                    Disconnected
-                </span>
+                    <span id="connectionStatus">
+                        Disconnected
+                    </span>
+
+                </div>
 
             </div>
+
+
+            <button
+                id="connectButton"
+                onclick="connectButtonPressed()"
+            >
+                Connect
+            </button>
 
         </div>
 
 
-        <button
-            id="connectButton"
-            onclick="connectButtonPressed()"
+        <div
+            id="errorMessage"
+            class="error"
+        ></div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- BATTERY                                                    -->
+    <!-- ========================================================= -->
+
+    <div class="card battery">
+
+        <h2>Battery</h2>
+
+
+        <div
+            id="socCircle"
+            class="soc-circle"
         >
-            Connect
-        </button>
 
-    </div>
+            <div>
 
+                <div
+                    id="socValue"
+                    class="soc-value"
+                >
+                    --%
+                </div>
 
-    <div
-        id="errorMessage"
-        class="error"
-    ></div>
+                <div class="soc-label">
+                    SOC
+                </div>
 
-</div>
-
-
-<!-- ============================================================ -->
-<!-- BATTERY                                                       -->
-<!-- ============================================================ -->
-
-<div class="card battery">
-
-    <h2>Battery</h2>
-
-
-    <div
-        id="socCircle"
-        class="soc-circle"
-    >
-
-        <div>
-
-            <div
-                id="socValue"
-                class="soc-value"
-            >
-                --%
-            </div>
-
-            <div class="soc-label">
-                SOC
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="values">
-
-        <div class="value-box">
-
-            <div
-                id="batteryVoltage"
-                class="value"
-            >
-                -- V
-            </div>
-
-            <div class="label">
-                Voltage
-            </div>
-
-        </div>
-
-
-        <div class="value-box">
-
-            <div
-                id="batteryCurrent"
-                class="value"
-            >
-                -- A
-            </div>
-
-            <div class="label">
-                Current
-            </div>
-
-        </div>
-
-
-        <div class="value-box">
-
-            <div
-                id="batteryPower"
-                class="value"
-            >
-                -- W
-            </div>
-
-            <div class="label">
-                Power
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ============================================================ -->
-<!-- CIRCUITS                                                       -->
-<!-- ============================================================ -->
-
-<div class="card">
-
-    <h2>Circuits</h2>
-
-
-    <!-- CIRCUIT 1 -->
-
-    <div class="circuit">
-
-        <div class="circuit-header">
-
-            <div class="circuit-name">
-                Circuit 1
-            </div>
-
-            <div
-                id="state1"
-                class="circuit-state"
-            >
-                OFF
             </div>
 
         </div>
@@ -505,7 +449,7 @@ button.disconnect {
             <div class="value-box">
 
                 <div
-                    id="c1Voltage"
+                    id="batteryVoltage"
                     class="value"
                 >
                     -- V
@@ -521,7 +465,7 @@ button.disconnect {
             <div class="value-box">
 
                 <div
-                    id="c1Current"
+                    id="batteryCurrent"
                     class="value"
                 >
                     -- A
@@ -537,7 +481,7 @@ button.disconnect {
             <div class="value-box">
 
                 <div
-                    id="c1Power"
+                    id="batteryPower"
                     class="value"
                 >
                     -- W
@@ -551,411 +495,501 @@ button.disconnect {
 
         </div>
 
+    </div>
 
-        <div class="circuit-buttons">
 
-            <button
-                id="c1On"
-                class="on-button"
-                onclick="setCircuit(1, true)"
-            >
-                ON
-            </button>
+    <!-- ========================================================= -->
+    <!-- CIRCUITS                                                    -->
+    <!-- ========================================================= -->
 
-            <button
-                id="c1Off"
-                class="off-button"
-                onclick="setCircuit(1, false)"
-            >
-                OFF
-            </button>
+    <div class="card">
+
+        <h2>Circuits</h2>
+
+
+        <!-- ===================================================== -->
+        <!-- CIRCUIT 1                                               -->
+        <!-- ===================================================== -->
+
+        <div class="circuit">
+
+            <div class="circuit-header">
+
+                <div class="circuit-name">
+                    Circuit 1
+                </div>
+
+                <div
+                    id="state1"
+                    class="circuit-state"
+                >
+                    OFF
+                </div>
+
+            </div>
+
+
+            <div class="values">
+
+                <div class="value-box">
+
+                    <div
+                        id="c1Voltage"
+                        class="value"
+                    >
+                        -- V
+                    </div>
+
+                    <div class="label">
+                        Voltage
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c1Current"
+                        class="value"
+                    >
+                        -- A
+                    </div>
+
+                    <div class="label">
+                        Current
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c1Power"
+                        class="value"
+                    >
+                        -- W
+                    </div>
+
+                    <div class="label">
+                        Power
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="circuit-buttons">
+
+                <button
+                    id="c1On"
+                    class="on-button"
+                    onclick="setCircuit(1, true)"
+                >
+                    ON
+                </button>
+
+                <button
+                    id="c1Off"
+                    class="off-button"
+                    onclick="setCircuit(1, false)"
+                >
+                    OFF
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- CIRCUIT 2                                               -->
+        <!-- ===================================================== -->
+
+        <div class="circuit">
+
+            <div class="circuit-header">
+
+                <div class="circuit-name">
+                    Circuit 2
+                </div>
+
+                <div
+                    id="state2"
+                    class="circuit-state"
+                >
+                    OFF
+                </div>
+
+            </div>
+
+
+            <div class="values">
+
+                <div class="value-box">
+
+                    <div
+                        id="c2Voltage"
+                        class="value"
+                    >
+                        -- V
+                    </div>
+
+                    <div class="label">
+                        Voltage
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c2Current"
+                        class="value"
+                    >
+                        -- A
+                    </div>
+
+                    <div class="label">
+                        Current
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c2Power"
+                        class="value"
+                    >
+                        -- W
+                    </div>
+
+                    <div class="label">
+                        Power
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="circuit-buttons">
+
+                <button
+                    id="c2On"
+                    class="on-button"
+                    onclick="setCircuit(2, true)"
+                >
+                    ON
+                </button>
+
+                <button
+                    id="c2Off"
+                    class="off-button"
+                    onclick="setCircuit(2, false)"
+                >
+                    OFF
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- CIRCUIT 3                                               -->
+        <!-- ===================================================== -->
+
+        <div class="circuit">
+
+            <div class="circuit-header">
+
+                <div class="circuit-name">
+                    Circuit 3
+                </div>
+
+                <div
+                    id="state3"
+                    class="circuit-state"
+                >
+                    OFF
+                </div>
+
+            </div>
+
+
+            <div class="values">
+
+                <div class="value-box">
+
+                    <div
+                        id="c3Voltage"
+                        class="value"
+                    >
+                        -- V
+                    </div>
+
+                    <div class="label">
+                        Voltage
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c3Current"
+                        class="value"
+                    >
+                        -- A
+                    </div>
+
+                    <div class="label">
+                        Current
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c3Power"
+                        class="value"
+                    >
+                        -- W
+                    </div>
+
+                    <div class="label">
+                        Power
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="circuit-buttons">
+
+                <button
+                    id="c3On"
+                    class="on-button"
+                    onclick="setCircuit(3, true)"
+                >
+                    ON
+                </button>
+
+                <button
+                    id="c3Off"
+                    class="off-button"
+                    onclick="setCircuit(3, false)"
+                >
+                    OFF
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- CIRCUIT 4                                               -->
+        <!-- ===================================================== -->
+
+        <div class="circuit">
+
+            <div class="circuit-header">
+
+                <div class="circuit-name">
+                    Circuit 4
+                </div>
+
+                <div
+                    id="state4"
+                    class="circuit-state"
+                >
+                    OFF
+                </div>
+
+            </div>
+
+
+            <div class="values">
+
+                <div class="value-box">
+
+                    <div
+                        id="c4Voltage"
+                        class="value"
+                    >
+                        -- V
+                    </div>
+
+                    <div class="label">
+                        Voltage
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c4Current"
+                        class="value"
+                    >
+                        -- A
+                    </div>
+
+                    <div class="label">
+                        Current
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div
+                        id="c4Power"
+                        class="value"
+                    >
+                        -- W
+                    </div>
+
+                    <div class="label">
+                        Power
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="circuit-buttons">
+
+                <button
+                    id="c4On"
+                    class="on-button"
+                    onclick="setCircuit(4, true)"
+                >
+                    ON
+                </button>
+
+                <button
+                    id="c4Off"
+                    class="off-button"
+                    onclick="setCircuit(4, false)"
+                >
+                    OFF
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
 
-    <!-- CIRCUIT 2 -->
+    <!-- ========================================================= -->
+    <!-- ESP32 STATUS                                               -->
+    <!-- ========================================================= -->
 
-    <div class="circuit">
+    <div class="card">
 
-        <div class="circuit-header">
-
-            <div class="circuit-name">
-                Circuit 2
-            </div>
-
-            <div
-                id="state2"
-                class="circuit-state"
-            >
-                OFF
-            </div>
-
-        </div>
+        <h2>ESP32 Status</h2>
 
 
-        <div class="values">
+        <div class="packet-grid">
 
-            <div class="value-box">
+            <div class="packet-item">
+
+                <div class="packet-title">
+                    Version
+                </div>
 
                 <div
-                    id="c2Voltage"
-                    class="value"
+                    id="packetVersion"
+                    class="packet-value"
                 >
-                    -- V
-                </div>
-
-                <div class="label">
-                    Voltage
+                    --
                 </div>
 
             </div>
 
 
-            <div class="value-box">
+            <div class="packet-item">
+
+                <div class="packet-title">
+                    Message Type
+                </div>
 
                 <div
-                    id="c2Current"
-                    class="value"
+                    id="packetType"
+                    class="packet-value"
                 >
-                    -- A
-                </div>
-
-                <div class="label">
-                    Current
+                    --
                 </div>
 
             </div>
 
 
-            <div class="value-box">
+            <div class="packet-item">
+
+                <div class="packet-title">
+                    Packet Length
+                </div>
 
                 <div
-                    id="c2Power"
-                    class="value"
+                    id="packetLength"
+                    class="packet-value"
                 >
-                    -- W
-                </div>
-
-                <div class="label">
-                    Power
+                    --
                 </div>
 
             </div>
 
-        </div>
 
+            <div class="packet-item">
 
-        <div class="circuit-buttons">
-
-            <button
-                id="c2On"
-                class="on-button"
-                onclick="setCircuit(2, true)"
-            >
-                ON
-            </button>
-
-            <button
-                id="c2Off"
-                class="off-button"
-                onclick="setCircuit(2, false)"
-            >
-                OFF
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- CIRCUIT 3 -->
-
-    <div class="circuit">
-
-        <div class="circuit-header">
-
-            <div class="circuit-name">
-                Circuit 3
-            </div>
-
-            <div
-                id="state3"
-                class="circuit-state"
-            >
-                OFF
-            </div>
-
-        </div>
-
-
-        <div class="values">
-
-            <div class="value-box">
+                <div class="packet-title">
+                    Circuit Mask
+                </div>
 
                 <div
-                    id="c3Voltage"
-                    class="value"
+                    id="circuitMask"
+                    class="packet-value"
                 >
-                    -- V
-                </div>
-
-                <div class="label">
-                    Voltage
+                    --
                 </div>
 
             </div>
 
 
-            <div class="value-box">
+            <div class="packet-item">
+
+                <div class="packet-title">
+                    Status
+                </div>
 
                 <div
-                    id="c3Current"
-                    class="value"
+                    id="packetStatus"
+                    class="packet-value muted"
                 >
-                    -- A
+                    Waiting
                 </div>
 
-                <div class="label">
-                    Current
-                </div>
-
-            </div>
-
-
-            <div class="value-box">
-
-                <div
-                    id="c3Power"
-                    class="value"
-                >
-                    -- W
-                </div>
-
-                <div class="label">
-                    Power
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="circuit-buttons">
-
-            <button
-                id="c3On"
-                class="on-button"
-                onclick="setCircuit(3, true)"
-            >
-                ON
-            </button>
-
-            <button
-                id="c3Off"
-                class="off-button"
-                onclick="setCircuit(3, false)"
-            >
-                OFF
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- CIRCUIT 4 -->
-
-    <div class="circuit">
-
-        <div class="circuit-header">
-
-            <div class="circuit-name">
-                Circuit 4
-            </div>
-
-            <div
-                id="state4"
-                class="circuit-state"
-            >
-                OFF
-            </div>
-
-        </div>
-
-
-        <div class="values">
-
-            <div class="value-box">
-
-                <div
-                    id="c4Voltage"
-                    class="value"
-                >
-                    -- V
-                </div>
-
-                <div class="label">
-                    Voltage
-                </div>
-
-            </div>
-
-
-            <div class="value-box">
-
-                <div
-                    id="c4Current"
-                    class="value"
-                >
-                    -- A
-                </div>
-
-                <div class="label">
-                    Current
-                </div>
-
-            </div>
-
-
-            <div class="value-box">
-
-                <div
-                    id="c4Power"
-                    class="value"
-                >
-                    -- W
-                </div>
-
-                <div class="label">
-                    Power
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="circuit-buttons">
-
-            <button
-                id="c4On"
-                class="on-button"
-                onclick="setCircuit(4, true)"
-            >
-                ON
-            </button>
-
-            <button
-                id="c4Off"
-                class="off-button"
-                onclick="setCircuit(4, false)"
-            >
-                OFF
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ============================================================ -->
-<!-- ESP32 STATUS                                                   -->
-<!-- ============================================================ -->
-
-<div class="card">
-
-    <h2>ESP32 Status</h2>
-
-
-    <div class="packet-grid">
-
-        <div class="packet-item">
-
-            <div class="packet-title">
-                Version
-            </div>
-
-            <div
-                id="packetVersion"
-                class="packet-value"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="packet-item">
-
-            <div class="packet-title">
-                Message Type
-            </div>
-
-            <div
-                id="packetType"
-                class="packet-value"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="packet-item">
-
-            <div class="packet-title">
-                Packet Length
-            </div>
-
-            <div
-                id="packetLength"
-                class="packet-value"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="packet-item">
-
-            <div class="packet-title">
-                Circuit Mask
-            </div>
-
-            <div
-                id="circuitMask"
-                class="packet-value"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="packet-item">
-
-            <div class="packet-title">
-                Status
-            </div>
-
-            <div
-                id="packetStatus"
-                class="packet-value muted"
-            >
-                Waiting
             </div>
 
         </div>
 
     </div>
-
-</div>
-
 
 </div>
 
@@ -963,9 +997,9 @@ button.disconnect {
 <script>
 
 
-/* ================================================================= */
-/* UUIDs                                                             */
-/* ================================================================= */
+/* ======================================================================== */
+/* BLE CONFIGURATION                                                        */
+/* ======================================================================== */
 
 const DEVICE_NAME =
     "YD_ESP32";
@@ -983,20 +1017,45 @@ const CONTROL_CHARACTERISTIC_UUID =
     "12345678-1234-5678-1234-56789abcdef3";
 
 
-/* ================================================================= */
-/* PACKET                                                            */
-/* ================================================================= */
+/* ======================================================================== */
+/* STATUS PACKET                                                            */
+/* ======================================================================== */
 
-const PACKET_LENGTH = 36;
+/*
+ * Packet:
+ *
+ *  0       version
+ *  1       message type
+ *
+ *  2-3     battery voltage / 100
+ *  4-5     battery current / 100
+ *  6-7     battery power / 10
+ *  8-9     battery SOC / 10
+ *
+ * 10-15   circuit 1
+ * 16-21   circuit 2
+ * 22-27   circuit 3
+ * 28-33   circuit 4
+ *
+ * 34      circuit state bitmask
+ * 35      reserved
+ */
 
-const EXPECTED_VERSION = 1;
+const PACKET_LENGTH =
+    36;
 
-const EXPECTED_MESSAGE_TYPE = 1;
+
+const EXPECTED_VERSION =
+    1;
 
 
-/* ================================================================= */
-/* BLE STATE                                                         */
-/* ================================================================= */
+const EXPECTED_MESSAGE_TYPE =
+    1;
+
+
+/* ======================================================================== */
+/* BLE STATE                                                                */
+/* ======================================================================== */
 
 let device = null;
 
@@ -1011,9 +1070,9 @@ let manualDisconnect = false;
 let reconnectTimer = null;
 
 
-/* ================================================================= */
-/* CONNECTION UI                                                     */
-/* ================================================================= */
+/* ======================================================================== */
+/* CONNECTION UI                                                            */
+/* ======================================================================== */
 
 function setConnectionUI(connected)
 {
@@ -1068,9 +1127,9 @@ function setConnectionUI(connected)
 }
 
 
-/* ================================================================= */
-/* ERROR                                                             */
-/* ================================================================= */
+/* ======================================================================== */
+/* ERROR HANDLING                                                           */
+/* ======================================================================== */
 
 function showError(message)
 {
@@ -1092,9 +1151,9 @@ function clearError()
 }
 
 
-/* ================================================================= */
-/* CONNECT BUTTON                                                    */
-/* ================================================================= */
+/* ======================================================================== */
+/* CONNECT BUTTON                                                           */
+/* ======================================================================== */
 
 async function connectButtonPressed()
 {
@@ -1117,46 +1176,38 @@ async function connectButtonPressed()
 }
 
 
-/* ================================================================= */
-/* CONNECT                                                           */
-/* ================================================================= */
+/* ======================================================================== */
+/* CONNECT                                                                  */
+/* ======================================================================== */
 
 async function connectESP32()
 {
     if (!navigator.bluetooth) {
 
         showError(
-            "Web Bluetooth is unavailable. " +
-            "Open the page through Beacio."
+            "Web Bluetooth is not available. " +
+            "Open this page through Beacio."
         );
 
         return;
     }
 
 
-    manualDisconnect = false;
+    manualDisconnect =
+        false;
 
 
     try {
 
-        document.getElementById(
-            "connectionStatus"
-        ).textContent =
-            "Finding ESP32...";
-
-
-        /*
-         * ---------------------------------------------------------
-         * Try previously authorised devices.
-         * ---------------------------------------------------------
-         */
-
         let devices = [];
 
 
+        /*
+         * Try previously authorised devices first.
+         */
+
         if (
-            typeof navigator.bluetooth.getDevices ===
-            "function"
+            navigator.bluetooth.getDevices
         ) {
 
             devices =
@@ -1171,18 +1222,13 @@ async function connectESP32()
 
 
         /*
-         * ---------------------------------------------------------
          * First-time connection.
-         * ---------------------------------------------------------
+         *
+         * IMPORTANT:
+         * This is filtered to YD_ESP32 only.
          */
 
         if (!device) {
-
-            document.getElementById(
-                "connectionStatus"
-            ).textContent =
-                "Select YD_ESP32...";
-
 
             device =
                 await navigator.bluetooth.requestDevice({
@@ -1196,34 +1242,8 @@ async function connectESP32()
                     optionalServices: [
                         SERVICE_UUID
                     ]
-
                 });
         }
-
-
-        if (!device) {
-
-            throw new Error(
-                "No YD_ESP32 device selected."
-            );
-        }
-
-
-        console.log(
-            "Device:",
-            device.name
-        );
-
-
-        /*
-         * Avoid registering the same disconnect
-         * listener repeatedly.
-         */
-
-        device.removeEventListener(
-            "gattserverdisconnected",
-            handleDisconnect
-        );
 
 
         device.addEventListener(
@@ -1237,71 +1257,40 @@ async function connectESP32()
     }
     catch (error) {
 
-        console.error(
-            "CONNECT ERROR:",
-            error
-        );
-
-
-        setConnectionUI(false);
-
+        console.error(error);
 
         showError(
-            "Connection failed: " +
-            (
-                error.message ||
-                String(error)
-            )
+            error.message ||
+            String(error)
         );
+
+        setConnectionUI(false);
     }
 }
 
 
-/* ================================================================= */
-/* CONNECT TO DEVICE                                                 */
-/* ================================================================= */
+/* ======================================================================== */
+/* CONNECT TO DEVICE                                                        */
+/* ======================================================================== */
 
 async function connectToDevice()
 {
     if (!device) {
-
-        throw new Error(
-            "No Bluetooth device."
-        );
+        return;
     }
 
 
-    /*
-     * -------------------------------------------------------------
-     * GATT CONNECT
-     * -------------------------------------------------------------
-     */
+    clearError();
+
 
     document.getElementById(
         "connectionStatus"
     ).textContent =
-        "Connecting GATT...";
+        "Connecting...";
 
 
     server =
         await device.gatt.connect();
-
-
-    console.log(
-        "GATT connected"
-    );
-
-
-    /*
-     * -------------------------------------------------------------
-     * SERVICE
-     * -------------------------------------------------------------
-     */
-
-    document.getElementById(
-        "connectionStatus"
-    ).textContent =
-        "Finding service...";
 
 
     const service =
@@ -1310,54 +1299,23 @@ async function connectToDevice()
         );
 
 
-    console.log(
-        "Service found:",
-        SERVICE_UUID
-    );
-
-
-    /*
-     * -------------------------------------------------------------
-     * STATUS CHARACTERISTIC
-     * -------------------------------------------------------------
-     */
-
-    document.getElementById(
-        "connectionStatus"
-    ).textContent =
-        "Finding status...";
-
-
     statusCharacteristic =
         await service.getCharacteristic(
             STATUS_CHARACTERISTIC_UUID
         );
 
 
-    console.log(
-        "Status characteristic found"
-    );
+    controlCharacteristic =
+        await service.getCharacteristic(
+            CONTROL_CHARACTERISTIC_UUID
+        );
 
 
     /*
-     * -------------------------------------------------------------
-     * START STATUS NOTIFICATIONS
-     * -------------------------------------------------------------
+     * Subscribe to status notifications.
      */
 
-    document.getElementById(
-        "connectionStatus"
-    ).textContent =
-        "Starting notifications...";
-
-
     await statusCharacteristic.startNotifications();
-
-
-    statusCharacteristic.removeEventListener(
-        "characteristicvaluechanged",
-        handleStatusNotification
-    );
 
 
     statusCharacteristic.addEventListener(
@@ -1366,87 +1324,24 @@ async function connectToDevice()
     );
 
 
-    console.log(
-        "Status notifications enabled"
-    );
-
-
-    /*
-     * -------------------------------------------------------------
-     * CONNECTION IS NOW VALID
-     * -------------------------------------------------------------
-     */
-
     setConnectionUI(true);
-
-
-    /*
-     * -------------------------------------------------------------
-     * CONTROL CHARACTERISTIC
-     * -------------------------------------------------------------
-     *
-     * This is deliberately done AFTER connecting.
-     *
-     * If it fails, status monitoring still works.
-     * -------------------------------------------------------------
-     */
-
-    try {
-
-        controlCharacteristic =
-            await service.getCharacteristic(
-                CONTROL_CHARACTERISTIC_UUID
-            );
-
-
-        console.log(
-            "Control characteristic found"
-        );
-
-
-    }
-    catch (error) {
-
-        controlCharacteristic =
-            null;
-
-
-        console.error(
-            "Control characteristic unavailable:",
-            error
-        );
-
-
-        showError(
-            "Connected, but control characteristic " +
-            "could not be found: " +
-            (
-                error.message ||
-                String(error)
-            )
-        );
-    }
 
 
     document.getElementById(
         "packetStatus"
     ).textContent =
-        "Waiting for status";
-
-
-    console.log(
-        "ESP32 connection complete"
-    );
+        "Waiting for packet";
 }
 
 
-/* ================================================================= */
-/* DISCONNECT                                                        */
-/* ================================================================= */
+/* ======================================================================== */
+/* DISCONNECT                                                               */
+/* ======================================================================== */
 
 async function disconnectESP32()
 {
-    manualDisconnect = true;
+    manualDisconnect =
+        true;
 
 
     clearTimeout(
@@ -1463,10 +1358,7 @@ async function disconnectESP32()
         }
         catch (error) {
 
-            console.log(
-                "stopNotifications:",
-                error
-            );
+            console.log(error);
         }
 
 
@@ -1507,9 +1399,9 @@ async function disconnectESP32()
 }
 
 
-/* ================================================================= */
-/* DISCONNECT EVENT                                                  */
-/* ================================================================= */
+/* ======================================================================== */
+/* UNEXPECTED DISCONNECT                                                    */
+/* ======================================================================== */
 
 function handleDisconnect()
 {
@@ -1548,16 +1440,14 @@ function handleDisconnect()
 }
 
 
-/* ================================================================= */
-/* AUTOMATIC RECONNECT                                               */
-/* ================================================================= */
+/* ======================================================================== */
+/* AUTOMATIC RECONNECT                                                      */
+/* ======================================================================== */
 
 async function automaticReconnect()
 {
     if (
-        !navigator.bluetooth ||
-        typeof navigator.bluetooth.getDevices !==
-        "function"
+        !navigator.bluetooth.getDevices
     ) {
         return;
     }
@@ -1597,9 +1487,9 @@ async function automaticReconnect()
 }
 
 
-/* ================================================================= */
-/* STATUS NOTIFICATION                                               */
-/* ================================================================= */
+/* ======================================================================== */
+/* STATUS NOTIFICATION                                                      */
+/* ======================================================================== */
 
 function handleStatusNotification(event)
 {
@@ -1609,9 +1499,9 @@ function handleStatusNotification(event)
 }
 
 
-/* ================================================================= */
-/* STATUS PACKET                                                     */
-/* ================================================================= */
+/* ======================================================================== */
+/* READ STATUS PACKET                                                       */
+/* ======================================================================== */
 
 function handleStatusValue(dataView)
 {
@@ -1626,30 +1516,30 @@ function handleStatusValue(dataView)
         " bytes";
 
 
-    if (
-        length !== PACKET_LENGTH
-    ) {
+    /*
+     * Packet must be exactly 36 bytes.
+     */
+
+    if (length !== PACKET_LENGTH) {
 
         document.getElementById(
             "packetStatus"
         ).textContent =
             "Invalid length";
 
-
         showError(
-            "Expected 36 bytes, received " +
+            "Expected 36-byte packet, received " +
             length +
             " bytes."
         );
-
 
         return;
     }
 
 
-    /*
-     * Header
-     */
+    /* -------------------------------------------------------------------- */
+    /* HEADER                                                               */
+    /* -------------------------------------------------------------------- */
 
     const version =
         dataView.getUint8(0);
@@ -1697,9 +1587,9 @@ function handleStatusValue(dataView)
     }
 
 
-    /*
-     * Battery
-     */
+    /* -------------------------------------------------------------------- */
+    /* BATTERY                                                              */
+    /* -------------------------------------------------------------------- */
 
     const batteryVoltage =
         dataView.getUint16(
@@ -1757,9 +1647,9 @@ function handleStatusValue(dataView)
         "%";
 
 
-    /*
-     * SOC circle
-     */
+    /* -------------------------------------------------------------------- */
+    /* SOC CIRCLE                                                            */
+    /* -------------------------------------------------------------------- */
 
     const soc =
         Math.max(
@@ -1788,15 +1678,24 @@ function handleStatusValue(dataView)
         "%)";
     
 
-    /*
-     * Circuit measurements
-     */
+    /* -------------------------------------------------------------------- */
+    /* CIRCUIT MEASUREMENTS                                                  */
+    /* -------------------------------------------------------------------- */
 
     for (
         let circuit = 1;
         circuit <= 4;
         circuit++
     ) {
+
+        /*
+         * Circuit offsets:
+         *
+         * C1 = 10
+         * C2 = 16
+         * C3 = 22
+         * C4 = 28
+         */
 
         const offset =
             10 +
@@ -1852,12 +1751,12 @@ function handleStatusValue(dataView)
     }
 
 
+    /* -------------------------------------------------------------------- */
+    /* ACTUAL CIRCUIT STATE                                                  */
+    /* -------------------------------------------------------------------- */
+
     /*
-     * -------------------------------------------------------------
-     * ACTUAL ESP32 CIRCUIT STATE
-     * -------------------------------------------------------------
-     *
-     * Byte 34:
+     * Byte 34 is the authoritative circuit state.
      *
      * bit 0 = Circuit 1
      * bit 1 = Circuit 2
@@ -1868,6 +1767,19 @@ function handleStatusValue(dataView)
     const circuitState =
         dataView.getUint8(34);
 
+
+    /*
+     * Display mask as hexadecimal.
+     *
+     * Examples:
+     *
+     * 0x00 = all OFF
+     * 0x01 = C1 ON
+     * 0x02 = C2 ON
+     * 0x04 = C3 ON
+     * 0x08 = C4 ON
+     * 0x0F = all ON
+     */
 
     document.getElementById(
         "circuitMask"
@@ -1880,7 +1792,8 @@ function handleStatusValue(dataView)
 
 
     /*
-     * Update buttons from ESP32 state.
+     * Update every button from the actual
+     * state reported by the ESP32.
      */
 
     for (
@@ -1903,9 +1816,9 @@ function handleStatusValue(dataView)
     }
 
 
-    /*
-     * Packet valid
-     */
+    /* -------------------------------------------------------------------- */
+    /* PACKET VALID                                                          */
+    /* -------------------------------------------------------------------- */
 
     document.getElementById(
         "packetStatus"
@@ -1918,12 +1831,15 @@ function handleStatusValue(dataView)
     ).classList.add(
         "success"
     );
+
+
+    clearError();
 }
 
 
-/* ================================================================= */
-/* CIRCUIT CONTROL                                                   */
-/* ================================================================= */
+/* ======================================================================== */
+/* CIRCUIT CONTROL                                                          */
+/* ======================================================================== */
 
 async function setCircuit(
     circuit,
@@ -1936,8 +1852,7 @@ async function setCircuit(
     if (!controlCharacteristic) {
 
         showError(
-            "Circuit control is not available. " +
-            "Reconnect to the ESP32."
+            "ESP32 is not connected."
         );
 
         return;
@@ -1947,17 +1862,27 @@ async function setCircuit(
     /*
      * IMPORTANT:
      *
-     * The ESP32 uses:
+     * HTML circuit numbers:
      *
-     * 0 = Circuit 1
-     * 1 = Circuit 2
-     * 2 = Circuit 3
-     * 3 = Circuit 4
+     *     1, 2, 3, 4
+     *
+     * ESP32 circuit indexes:
+     *
+     *     0, 1, 2, 3
+     *
+     * Therefore subtract 1.
      */
 
     const esp32Circuit =
         circuit - 1;
 
+
+    /*
+     * Control packet:
+     *
+     * byte 0 = 0-3
+     * byte 1 = 0 OFF / 1 ON
+     */
 
     const packet =
         new Uint8Array([
@@ -1967,42 +1892,47 @@ async function setCircuit(
 
 
     console.log(
-        "Sending:",
-        Array.from(packet),
-        "Circuit:",
+        "Sending circuit command:",
+        "Circuit",
         circuit,
-        "State:",
-        state ? "ON" : "OFF"
+        "ESP32 index",
+        esp32Circuit,
+        "State",
+        state ? "ON" : "OFF",
+        packet
     );
 
 
     try {
 
+        /*
+         * Prefer write-with-response.
+         */
+
         if (
-            typeof controlCharacteristic
-                .writeValueWithResponse ===
-            "function"
+            controlCharacteristic.writeValueWithResponse
         ) {
 
-            await controlCharacteristic
-                .writeValueWithResponse(
-                    packet
-                );
+            await controlCharacteristic.writeValueWithResponse(
+                packet
+            );
 
         } else {
 
-            await controlCharacteristic
-                .writeValue(
-                    packet
-                );
+            await controlCharacteristic.writeValue(
+                packet
+            );
         }
 
 
         /*
-         * Immediately show requested state.
+         * DO NOT treat the local button state as authoritative.
          *
-         * The next ESP32 status packet will
-         * confirm the actual state.
+         * The ESP32 will send its actual state in byte 34
+         * in the next status packet.
+         *
+         * We can still show the requested state immediately
+         * so the UI feels responsive.
          */
 
         updateCircuitState(
@@ -2014,28 +1944,24 @@ async function setCircuit(
     }
     catch (error) {
 
-        console.error(
-            "Circuit control error:",
-            error
-        );
-
+        console.error(error);
 
         showError(
-            "Circuit " +
+            "Failed to control Circuit " +
             circuit +
-            " command failed: " +
+            ": " +
             (
                 error.message ||
-                String(error)
+                error
             )
         );
     }
 }
 
 
-/* ================================================================= */
-/* UPDATE CIRCUIT UI                                                 */
-/* ================================================================= */
+/* ======================================================================== */
+/* UPDATE CIRCUIT BUTTONS                                                    */
+/* ======================================================================== */
 
 function updateCircuitState(
     circuit,
@@ -2104,9 +2030,9 @@ function updateCircuitState(
 }
 
 
-/* ================================================================= */
-/* STARTUP                                                           */
-/* ================================================================= */
+/* ======================================================================== */
+/* STARTUP                                                                  */
+/* ======================================================================== */
 
 async function startup()
 {
@@ -2122,8 +2048,7 @@ async function startup()
 
 
     if (
-        typeof navigator.bluetooth.getDevices !==
-        "function"
+        !navigator.bluetooth.getDevices
     ) {
 
         console.log(
@@ -2157,18 +2082,6 @@ async function startup()
                 found;
 
 
-            device.removeEventListener(
-                "gattserverdisconnected",
-                handleDisconnect
-            );
-
-
-            device.addEventListener(
-                "gattserverdisconnected",
-                handleDisconnect
-            );
-
-
             await connectToDevice();
         }
 
@@ -2176,16 +2089,16 @@ async function startup()
     catch (error) {
 
         console.log(
-            "Automatic startup connection failed:",
+            "Startup reconnect failed:",
             error
         );
     }
 }
 
 
-/* ================================================================= */
-/* SERVICE WORKER                                                    */
-/* ================================================================= */
+/* ======================================================================== */
+/* SERVICE WORKER                                                           */
+/* ======================================================================== */
 
 if (
     "serviceWorker" in navigator
@@ -2201,7 +2114,7 @@ if (
                 .then(() => {
 
                     console.log(
-                        "Service worker registered"
+                        "Service worker registered."
                     );
 
                 })
@@ -2218,9 +2131,9 @@ if (
 }
 
 
-/* ================================================================= */
-/* START                                                             */
-/* ================================================================= */
+/* ======================================================================== */
+/* START                                                                     */
+/* ======================================================================== */
 
 window.addEventListener(
     "load",
@@ -2230,6 +2143,5 @@ window.addEventListener(
 </script>
 
 </body>
-
 </html>
 ```
