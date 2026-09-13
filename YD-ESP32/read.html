@@ -609,4 +609,1627 @@ button.disconnect {
                 <div class="label">
                     Voltage
                 </div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="c2Current"
+                    class="value"
+                >
+                    -- A
+                </div>
+
+                <div class="label">
+                    Current
+                </div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="c2Power"
+                    class="value"
+                >
+                    -- W
+                </div>
+
+                <div class="label">
+                    Power
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="circuit-buttons">
+
+            <button
+                id="c2On"
+                class="on-button"
+                onclick="setCircuit(2, true)"
+            >
+                ON
+            </button>
+
+            <button
+                id="c2Off"
+                class="off-button"
+                onclick="setCircuit(2, false)"
+            >
+                OFF
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CIRCUIT 3 -->
+
+    <div class="circuit">
+
+        <div class="circuit-header">
+
+            <div class="circuit-name">
+                Circuit 3
+            </div>
+
+            <div
+                id="state3"
+                class="circuit-state"
+            >
+                OFF
+            </div>
+
+        </div>
+
+
+        <div class="values">
+
+            <div class="value-box">
+
+                <div
+                    id="c3Voltage"
+                    class="value"
+                >
+                    -- V
+                </div>
+
+                <div class="label">
+                    Voltage
+                </div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="c3Current"
+                    class="value"
+                >
+                    -- A
+                </div>
+
+                <div class="label">
+                    Current
+                </div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="c3Power"
+                    class="value"
+                >
+                    -- W
+                </div>
+
+                <div class="label">
+                    Power
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="circuit-buttons">
+
+            <button
+                id="c3On"
+                class="on-button"
+                onclick="setCircuit(3, true)"
+            >
+                ON
+            </button>
+
+            <button
+                id="c3Off"
+                class="off-button"
+                onclick="setCircuit(3, false)"
+            >
+                OFF
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CIRCUIT 4 -->
+
+    <div class="circuit">
+
+        <div class="circuit-header">
+
+            <div class="circuit-name">
+                Circuit 4
+            </div>
+
+            <div
+                id="state4"
+                class="circuit-state"
+            >
+                OFF
+            </div>
+
+        </div>
+
+
+        <div class="values">
+
+            <div class="value-box">
+
+                <div
+                    id="c4Voltage"
+                    class="value"
+                >
+                    -- V
+                </div>
+
+                <div class="label">
+                    Voltage
+                </div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="c4Current"
+                    class="value"
+                >
+                    -- A
+                </div>
+
+                <div class="label">
+                    Current
+                </div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="c4Power"
+                    class="value"
+                >
+                    -- W
+                </div>
+
+                <div class="label">
+                    Power
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="circuit-buttons">
+
+            <button
+                id="c4On"
+                class="on-button"
+                onclick="setCircuit(4, true)"
+            >
+                ON
+            </button>
+
+            <button
+                id="c4Off"
+                class="off-button"
+                onclick="setCircuit(4, false)"
+            >
+                OFF
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- ESP32 STATUS                                                   -->
+<!-- ============================================================ -->
+
+<div class="card">
+
+    <h2>ESP32 Status</h2>
+
+
+    <div class="packet-grid">
+
+        <div class="packet-item">
+
+            <div class="packet-title">
+                Version
+            </div>
+
+            <div
+                id="packetVersion"
+                class="packet-value"
+            >
+                --
+            </div>
+
+        </div>
+
+
+        <div class="packet-item">
+
+            <div class="packet-title">
+                Message Type
+            </div>
+
+            <div
+                id="packetType"
+                class="packet-value"
+            >
+                --
+            </div>
+
+        </div>
+
+
+        <div class="packet-item">
+
+            <div class="packet-title">
+                Packet Length
+            </div>
+
+            <div
+                id="packetLength"
+                class="packet-value"
+            >
+                --
+            </div>
+
+        </div>
+
+
+        <div class="packet-item">
+
+            <div class="packet-title">
+                Circuit Mask
+            </div>
+
+            <div
+                id="circuitMask"
+                class="packet-value"
+            >
+                --
+            </div>
+
+        </div>
+
+
+        <div class="packet-item">
+
+            <div class="packet-title">
+                Status
+            </div>
+
+            <div
+                id="packetStatus"
+                class="packet-value muted"
+            >
+                Waiting
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* ================================================================= */
+/* UUIDs                                                             */
+/* ================================================================= */
+
+const DEVICE_NAME =
+    "YD_ESP32";
+
+
+const SERVICE_UUID =
+    "12345678-1234-5678-1234-56789abcdef0";
+
+
+const STATUS_CHARACTERISTIC_UUID =
+    "12345678-1234-5678-1234-56789abcdef2";
+
+
+const CONTROL_CHARACTERISTIC_UUID =
+    "12345678-1234-5678-1234-56789abcdef3";
+
+
+/* ================================================================= */
+/* PACKET                                                            */
+/* ================================================================= */
+
+const PACKET_LENGTH = 36;
+
+const EXPECTED_VERSION = 1;
+
+const EXPECTED_MESSAGE_TYPE = 1;
+
+
+/* ================================================================= */
+/* BLE STATE                                                         */
+/* ================================================================= */
+
+let device = null;
+
+let server = null;
+
+let statusCharacteristic = null;
+
+let controlCharacteristic = null;
+
+let manualDisconnect = false;
+
+let reconnectTimer = null;
+
+
+/* ================================================================= */
+/* CONNECTION UI                                                     */
+/* ================================================================= */
+
+function setConnectionUI(connected)
+{
+    const button =
+        document.getElementById(
+            "connectButton"
+        );
+
+    const dot =
+        document.getElementById(
+            "statusDot"
+        );
+
+    const status =
+        document.getElementById(
+            "connectionStatus"
+        );
+
+
+    if (connected) {
+
+        button.textContent =
+            "Disconnect";
+
+        button.classList.add(
+            "disconnect"
+        );
+
+        dot.classList.add(
+            "connected"
+        );
+
+        status.textContent =
+            "Connected";
+
+    } else {
+
+        button.textContent =
+            "Connect";
+
+        button.classList.remove(
+            "disconnect"
+        );
+
+        dot.classList.remove(
+            "connected"
+        );
+
+        status.textContent =
+            "Disconnected";
+    }
+}
+
+
+/* ================================================================= */
+/* ERROR                                                             */
+/* ================================================================= */
+
+function showError(message)
+{
+    document.getElementById(
+        "errorMessage"
+    ).textContent =
+        message;
+
+    console.error(message);
+}
+
+
+function clearError()
+{
+    document.getElementById(
+        "errorMessage"
+    ).textContent =
+        "";
+}
+
+
+/* ================================================================= */
+/* CONNECT BUTTON                                                    */
+/* ================================================================= */
+
+async function connectButtonPressed()
+{
+    clearError();
+
+
+    if (
+        device &&
+        device.gatt &&
+        device.gatt.connected
+    ) {
+
+        await disconnectESP32();
+
+        return;
+    }
+
+
+    await connectESP32();
+}
+
+
+/* ================================================================= */
+/* CONNECT                                                           */
+/* ================================================================= */
+
+async function connectESP32()
+{
+    if (!navigator.bluetooth) {
+
+        showError(
+            "Web Bluetooth is unavailable. " +
+            "Open the page through Beacio."
+        );
+
+        return;
+    }
+
+
+    manualDisconnect = false;
+
+
+    try {
+
+        document.getElementById(
+            "connectionStatus"
+        ).textContent =
+            "Finding ESP32...";
+
+
+        /*
+         * ---------------------------------------------------------
+         * Try previously authorised devices.
+         * ---------------------------------------------------------
+         */
+
+        let devices = [];
+
+
+        if (
+            typeof navigator.bluetooth.getDevices ===
+            "function"
+        ) {
+
+            devices =
+                await navigator.bluetooth.getDevices();
+        }
+
+
+        device =
+            devices.find(
+                d => d.name === DEVICE_NAME
+            );
+
+
+        /*
+         * ---------------------------------------------------------
+         * First-time connection.
+         * ---------------------------------------------------------
+         */
+
+        if (!device) {
+
+            document.getElementById(
+                "connectionStatus"
+            ).textContent =
+                "Select YD_ESP32...";
+
+
+            device =
+                await navigator.bluetooth.requestDevice({
+
+                    filters: [
+                        {
+                            name: DEVICE_NAME
+                        }
+                    ],
+
+                    optionalServices: [
+                        SERVICE_UUID
+                    ]
+
+                });
+        }
+
+
+        if (!device) {
+
+            throw new Error(
+                "No YD_ESP32 device selected."
+            );
+        }
+
+
+        console.log(
+            "Device:",
+            device.name
+        );
+
+
+        /*
+         * Avoid registering the same disconnect
+         * listener repeatedly.
+         */
+
+        device.removeEventListener(
+            "gattserverdisconnected",
+            handleDisconnect
+        );
+
+
+        device.addEventListener(
+            "gattserverdisconnected",
+            handleDisconnect
+        );
+
+
+        await connectToDevice();
+
+    }
+    catch (error) {
+
+        console.error(
+            "CONNECT ERROR:",
+            error
+        );
+
+
+        setConnectionUI(false);
+
+
+        showError(
+            "Connection failed: " +
+            (
+                error.message ||
+                String(error)
+            )
+        );
+    }
+}
+
+
+/* ================================================================= */
+/* CONNECT TO DEVICE                                                 */
+/* ================================================================= */
+
+async function connectToDevice()
+{
+    if (!device) {
+
+        throw new Error(
+            "No Bluetooth device."
+        );
+    }
+
+
+    /*
+     * -------------------------------------------------------------
+     * GATT CONNECT
+     * -------------------------------------------------------------
+     */
+
+    document.getElementById(
+        "connectionStatus"
+    ).textContent =
+        "Connecting GATT...";
+
+
+    server =
+        await device.gatt.connect();
+
+
+    console.log(
+        "GATT connected"
+    );
+
+
+    /*
+     * -------------------------------------------------------------
+     * SERVICE
+     * -------------------------------------------------------------
+     */
+
+    document.getElementById(
+        "connectionStatus"
+    ).textContent =
+        "Finding service...";
+
+
+    const service =
+        await server.getPrimaryService(
+            SERVICE_UUID
+        );
+
+
+    console.log(
+        "Service found:",
+        SERVICE_UUID
+    );
+
+
+    /*
+     * -------------------------------------------------------------
+     * STATUS CHARACTERISTIC
+     * -------------------------------------------------------------
+     */
+
+    document.getElementById(
+        "connectionStatus"
+    ).textContent =
+        "Finding status...";
+
+
+    statusCharacteristic =
+        await service.getCharacteristic(
+            STATUS_CHARACTERISTIC_UUID
+        );
+
+
+    console.log(
+        "Status characteristic found"
+    );
+
+
+    /*
+     * -------------------------------------------------------------
+     * START STATUS NOTIFICATIONS
+     * -------------------------------------------------------------
+     */
+
+    document.getElementById(
+        "connectionStatus"
+    ).textContent =
+        "Starting notifications...";
+
+
+    await statusCharacteristic.startNotifications();
+
+
+    statusCharacteristic.removeEventListener(
+        "characteristicvaluechanged",
+        handleStatusNotification
+    );
+
+
+    statusCharacteristic.addEventListener(
+        "characteristicvaluechanged",
+        handleStatusNotification
+    );
+
+
+    console.log(
+        "Status notifications enabled"
+    );
+
+
+    /*
+     * -------------------------------------------------------------
+     * CONNECTION IS NOW VALID
+     * -------------------------------------------------------------
+     */
+
+    setConnectionUI(true);
+
+
+    /*
+     * -------------------------------------------------------------
+     * CONTROL CHARACTERISTIC
+     * -------------------------------------------------------------
+     *
+     * This is deliberately done AFTER connecting.
+     *
+     * If it fails, status monitoring still works.
+     * -------------------------------------------------------------
+     */
+
+    try {
+
+        controlCharacteristic =
+            await service.getCharacteristic(
+                CONTROL_CHARACTERISTIC_UUID
+            );
+
+
+        console.log(
+            "Control characteristic found"
+        );
+
+
+    }
+    catch (error) {
+
+        controlCharacteristic =
+            null;
+
+
+        console.error(
+            "Control characteristic unavailable:",
+            error
+        );
+
+
+        showError(
+            "Connected, but control characteristic " +
+            "could not be found: " +
+            (
+                error.message ||
+                String(error)
+            )
+        );
+    }
+
+
+    document.getElementById(
+        "packetStatus"
+    ).textContent =
+        "Waiting for status";
+
+
+    console.log(
+        "ESP32 connection complete"
+    );
+}
+
+
+/* ================================================================= */
+/* DISCONNECT                                                        */
+/* ================================================================= */
+
+async function disconnectESP32()
+{
+    manualDisconnect = true;
+
+
+    clearTimeout(
+        reconnectTimer
+    );
+
+
+    if (statusCharacteristic) {
+
+        try {
+
+            await statusCharacteristic.stopNotifications();
+
+        }
+        catch (error) {
+
+            console.log(
+                "stopNotifications:",
+                error
+            );
+        }
+
+
+        statusCharacteristic.removeEventListener(
+            "characteristicvaluechanged",
+            handleStatusNotification
+        );
+    }
+
+
+    if (
+        device &&
+        device.gatt &&
+        device.gatt.connected
+    ) {
+
+        device.gatt.disconnect();
+    }
+
+
+    statusCharacteristic =
+        null;
+
+    controlCharacteristic =
+        null;
+
+    server =
+        null;
+
+
+    setConnectionUI(false);
+
+
+    document.getElementById(
+        "packetStatus"
+    ).textContent =
+        "Disconnected";
+}
+
+
+/* ================================================================= */
+/* DISCONNECT EVENT                                                  */
+/* ================================================================= */
+
+function handleDisconnect()
+{
+    console.log(
+        "ESP32 disconnected"
+    );
+
+
+    statusCharacteristic =
+        null;
+
+    controlCharacteristic =
+        null;
+
+    server =
+        null;
+
+
+    setConnectionUI(false);
+
+
+    document.getElementById(
+        "packetStatus"
+    ).textContent =
+        "Disconnected";
+
+
+    if (!manualDisconnect) {
+
+        reconnectTimer =
+            setTimeout(
+                automaticReconnect,
+                2000
+            );
+    }
+}
+
+
+/* ================================================================= */
+/* AUTOMATIC RECONNECT                                               */
+/* ================================================================= */
+
+async function automaticReconnect()
+{
+    if (
+        !navigator.bluetooth ||
+        typeof navigator.bluetooth.getDevices !==
+        "function"
+    ) {
+        return;
+    }
+
+
+    try {
+
+        const devices =
+            await navigator.bluetooth.getDevices();
+
+
+        const found =
+            devices.find(
+                d => d.name === DEVICE_NAME
+            );
+
+
+        if (!found) {
+            return;
+        }
+
+
+        device =
+            found;
+
+
+        await connectToDevice();
+
+    }
+    catch (error) {
+
+        console.log(
+            "Automatic reconnect failed:",
+            error
+        );
+    }
+}
+
+
+/* ================================================================= */
+/* STATUS NOTIFICATION                                               */
+/* ================================================================= */
+
+function handleStatusNotification(event)
+{
+    handleStatusValue(
+        event.target.value
+    );
+}
+
+
+/* ================================================================= */
+/* STATUS PACKET                                                     */
+/* ================================================================= */
+
+function handleStatusValue(dataView)
+{
+    const length =
+        dataView.byteLength;
+
+
+    document.getElementById(
+        "packetLength"
+    ).textContent =
+        length +
+        " bytes";
+
+
+    if (
+        length !== PACKET_LENGTH
+    ) {
+
+        document.getElementById(
+            "packetStatus"
+        ).textContent =
+            "Invalid length";
+
+
+        showError(
+            "Expected 36 bytes, received " +
+            length +
+            " bytes."
+        );
+
+
+        return;
+    }
+
+
+    /*
+     * Header
+     */
+
+    const version =
+        dataView.getUint8(0);
+
+
+    const messageType =
+        dataView.getUint8(1);
+
+
+    document.getElementById(
+        "packetVersion"
+    ).textContent =
+        version;
+
+
+    document.getElementById(
+        "packetType"
+    ).textContent =
+        messageType;
+
+
+    if (
+        version !== EXPECTED_VERSION
+    ) {
+
+        document.getElementById(
+            "packetStatus"
+        ).textContent =
+            "Invalid version";
+
+        return;
+    }
+
+
+    if (
+        messageType !== EXPECTED_MESSAGE_TYPE
+    ) {
+
+        document.getElementById(
+            "packetStatus"
+        ).textContent =
+            "Unknown message type";
+
+        return;
+    }
+
+
+    /*
+     * Battery
+     */
+
+    const batteryVoltage =
+        dataView.getUint16(
+            2,
+            true
+        ) / 100;
+
+
+    const batteryCurrent =
+        dataView.getInt16(
+            4,
+            true
+        ) / 100;
+
+
+    const batteryPower =
+        dataView.getInt16(
+            6,
+            true
+        ) / 10;
+
+
+    const batterySOC =
+        dataView.getUint16(
+            8,
+            true
+        ) / 10;
+
+
+    document.getElementById(
+        "batteryVoltage"
+    ).textContent =
+        batteryVoltage.toFixed(2) +
+        " V";
+
+
+    document.getElementById(
+        "batteryCurrent"
+    ).textContent =
+        batteryCurrent.toFixed(2) +
+        " A";
+
+
+    document.getElementById(
+        "batteryPower"
+    ).textContent =
+        batteryPower.toFixed(1) +
+        " W";
+
+
+    document.getElementById(
+        "socValue"
+    ).textContent =
+        batterySOC.toFixed(1) +
+        "%";
+
+
+    /*
+     * SOC circle
+     */
+
+    const soc =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                batterySOC
+            )
+        );
+
+
+    document.getElementById(
+        "socCircle"
+    ).style.background =
+
+        "radial-gradient(" +
+        "circle, #1c1c1e 58%, transparent 59%)," +
+
+        "conic-gradient(" +
+        "#30d158 " +
+        soc +
+        "%, " +
+
+        "#333 " +
+        soc +
+        "%)";
+    
+
+    /*
+     * Circuit measurements
+     */
+
+    for (
+        let circuit = 1;
+        circuit <= 4;
+        circuit++
+    ) {
+
+        const offset =
+            10 +
+            ((circuit - 1) * 6);
+
+
+        const voltage =
+            dataView.getUint16(
+                offset,
+                true
+            ) / 100;
+
+
+        const current =
+            dataView.getUint16(
+                offset + 2,
+                true
+            ) / 100;
+
+
+        const power =
+            dataView.getUint16(
+                offset + 4,
+                true
+            ) / 10;
+
+
+        document.getElementById(
+            "c" +
+            circuit +
+            "Voltage"
+        ).textContent =
+            voltage.toFixed(2) +
+            " V";
+
+
+        document.getElementById(
+            "c" +
+            circuit +
+            "Current"
+        ).textContent =
+            current.toFixed(2) +
+            " A";
+
+
+        document.getElementById(
+            "c" +
+            circuit +
+            "Power"
+        ).textContent =
+            power.toFixed(1) +
+            " W";
+    }
+
+
+    /*
+     * -------------------------------------------------------------
+     * ACTUAL ESP32 CIRCUIT STATE
+     * -------------------------------------------------------------
+     *
+     * Byte 34:
+     *
+     * bit 0 = Circuit 1
+     * bit 1 = Circuit 2
+     * bit 2 = Circuit 3
+     * bit 3 = Circuit 4
+     */
+
+    const circuitState =
+        dataView.getUint8(34);
+
+
+    document.getElementById(
+        "circuitMask"
+    ).textContent =
+        "0x" +
+        circuitState
+            .toString(16)
+            .padStart(2, "0")
+            .toUpperCase();
+
+
+    /*
+     * Update buttons from ESP32 state.
+     */
+
+    for (
+        let circuit = 1;
+        circuit <= 4;
+        circuit++
+    ) {
+
+        const isOn =
+            (
+                circuitState &
+                (1 << (circuit - 1))
+            ) !== 0;
+
+
+        updateCircuitState(
+            circuit,
+            isOn
+        );
+    }
+
+
+    /*
+     * Packet valid
+     */
+
+    document.getElementById(
+        "packetStatus"
+    ).textContent =
+        "Valid";
+
+
+    document.getElementById(
+        "packetStatus"
+    ).classList.add(
+        "success"
+    );
+}
+
+
+/* ================================================================= */
+/* CIRCUIT CONTROL                                                   */
+/* ================================================================= */
+
+async function setCircuit(
+    circuit,
+    state
+)
+{
+    clearError();
+
+
+    if (!controlCharacteristic) {
+
+        showError(
+            "Circuit control is not available. " +
+            "Reconnect to the ESP32."
+        );
+
+        return;
+    }
+
+
+    /*
+     * IMPORTANT:
+     *
+     * The ESP32 uses:
+     *
+     * 0 = Circuit 1
+     * 1 = Circuit 2
+     * 2 = Circuit 3
+     * 3 = Circuit 4
+     */
+
+    const esp32Circuit =
+        circuit - 1;
+
+
+    const packet =
+        new Uint8Array([
+            esp32Circuit,
+            state ? 1 : 0
+        ]);
+
+
+    console.log(
+        "Sending:",
+        Array.from(packet),
+        "Circuit:",
+        circuit,
+        "State:",
+        state ? "ON" : "OFF"
+    );
+
+
+    try {
+
+        if (
+            typeof controlCharacteristic
+                .writeValueWithResponse ===
+            "function"
+        ) {
+
+            await controlCharacteristic
+                .writeValueWithResponse(
+                    packet
+                );
+
+        } else {
+
+            await controlCharacteristic
+                .writeValue(
+                    packet
+                );
+        }
+
+
+        /*
+         * Immediately show requested state.
+         *
+         * The next ESP32 status packet will
+         * confirm the actual state.
+         */
+
+        updateCircuitState(
+            circuit,
+            state
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Circuit control error:",
+            error
+        );
+
+
+        showError(
+            "Circuit " +
+            circuit +
+            " command failed: " +
+            (
+                error.message ||
+                String(error)
+            )
+        );
+    }
+}
+
+
+/* ================================================================= */
+/* UPDATE CIRCUIT UI                                                 */
+/* ================================================================= */
+
+function updateCircuitState(
+    circuit,
+    state
+)
+{
+    const stateElement =
+        document.getElementById(
+            "state" +
+            circuit
+        );
+
+
+    const onButton =
+        document.getElementById(
+            "c" +
+            circuit +
+            "On"
+        );
+
+
+    const offButton =
+        document.getElementById(
+            "c" +
+            circuit +
+            "Off"
+        );
+
+
+    if (state) {
+
+        stateElement.textContent =
+            "ON";
+
+        stateElement.classList.add(
+            "on"
+        );
+
+
+        onButton.classList.add(
+            "active"
+        );
+
+        offButton.classList.remove(
+            "active"
+        );
+
+    } else {
+
+        stateElement.textContent =
+            "OFF";
+
+        stateElement.classList.remove(
+            "on"
+        );
+
+
+        onButton.classList.remove(
+            "active"
+        );
+
+        offButton.classList.add(
+            "active"
+        );
+    }
+}
+
+
+/* ================================================================= */
+/* STARTUP                                                           */
+/* ================================================================= */
+
+async function startup()
+{
+    if (!navigator.bluetooth) {
+
+        showError(
+            "Web Bluetooth unavailable. " +
+            "Open this page using Beacio."
+        );
+
+        return;
+    }
+
+
+    if (
+        typeof navigator.bluetooth.getDevices !==
+        "function"
+    ) {
+
+        console.log(
+            "getDevices() unavailable."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const devices =
+            await navigator.bluetooth.getDevices();
+
+
+        const found =
+            devices.find(
+                d => d.name === DEVICE_NAME
+            );
+
+
+        if (found) {
+
+            console.log(
+                "Previously authorised YD_ESP32 found."
+            );
+
+
+            device =
+                found;
+
+
+            device.removeEventListener(
+                "gattserverdisconnected",
+                handleDisconnect
+            );
+
+
+            device.addEventListener(
+                "gattserverdisconnected",
+                handleDisconnect
+            );
+
+
+            await connectToDevice();
+        }
+
+    }
+    catch (error) {
+
+        console.log(
+            "Automatic startup connection failed:",
+            error
+        );
+    }
+}
+
+
+/* ================================================================= */
+/* SERVICE WORKER                                                    */
+/* ================================================================= */
+
+if (
+    "serviceWorker" in navigator
+) {
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator.serviceWorker
+                .register("./sw.js")
+
+                .then(() => {
+
+                    console.log(
+                        "Service worker registered"
+                    );
+
+                })
+
+                .catch(error => {
+
+                    console.log(
+                        "Service worker registration failed:",
+                        error
+                    );
+                });
+        }
+    );
+}
+
+
+/* ================================================================= */
+/* START                                                             */
+/* ================================================================= */
+
+window.addEventListener(
+    "load",
+    startup
+);
+
+</script>
+
+</body>
+
+</html>
 ```
