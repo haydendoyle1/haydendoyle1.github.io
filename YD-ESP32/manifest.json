@@ -1,0 +1,16 @@
+```json
+{
+    "name": "YD ESP32 LED Controller",
+    "short_name": "YD ESP32",
+    "description": "Bluetooth LED controller for the YD ESP32",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#111111",
+    "theme_color": "#111111",
+    "categories": [
+        "utilities"
+    ]
+}
+```
