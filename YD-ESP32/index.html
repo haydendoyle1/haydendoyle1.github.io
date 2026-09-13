@@ -7,15 +7,19 @@
           content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <meta name="theme-color" content="#111111">
+
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="YD ESP32">
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent">
+    <meta name="apple-mobile-web-app-title"
+          content="YD ESP32">
 
     <title>YD ESP32 LED Controller</title>
 
     <link rel="manifest" href="./manifest.json">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -27,7 +31,7 @@
             padding-bottom: max(20px, env(safe-area-inset-bottom));
 
             background: #111;
-            color: #fff;
+            color: white;
 
             font-family:
                 -apple-system,
@@ -39,12 +43,12 @@
         .container {
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
+            margin: auto;
         }
 
         h1 {
-            font-size: 28px;
             margin: 10px 0 5px;
+            font-size: 28px;
         }
 
         .subtitle {
@@ -65,7 +69,10 @@
             margin-bottom: 15px;
         }
 
-        /* Bluetooth */
+
+        /* --------------------------------------------------------
+           BLUETOOTH
+        -------------------------------------------------------- */
 
         .connection-row {
             display: flex;
@@ -79,8 +86,8 @@
         }
 
         .device-name {
-            font-weight: 600;
             font-size: 16px;
+            font-weight: 600;
         }
 
         .status {
@@ -101,9 +108,15 @@
             color: #ff453a;
         }
 
+
+        /* --------------------------------------------------------
+           BUTTONS
+        -------------------------------------------------------- */
+
         button {
             border: none;
             border-radius: 12px;
+
             padding: 12px 18px;
 
             background: #007aff;
@@ -113,6 +126,7 @@
             font-weight: 600;
 
             cursor: pointer;
+
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -129,7 +143,10 @@
             background: #3a3a3c;
         }
 
-        /* Colour preview */
+
+        /* --------------------------------------------------------
+           PREVIEW
+        -------------------------------------------------------- */
 
         .preview {
             width: 100%;
@@ -142,14 +159,17 @@
             margin-bottom: 20px;
 
             box-shadow:
-                0 0 35px rgba(255, 0, 0, 0.25);
+                0 0 35px rgba(255, 0, 0, 0.4);
 
             transition:
                 background 0.1s,
                 box-shadow 0.1s;
         }
 
-        /* Colour picker */
+
+        /* --------------------------------------------------------
+           COLOUR PICKER
+        -------------------------------------------------------- */
 
         input[type="color"] {
             width: 100%;
@@ -159,12 +179,16 @@
             border-radius: 12px;
 
             background: transparent;
+
             padding: 0;
 
             cursor: pointer;
         }
 
-        /* Sliders */
+
+        /* --------------------------------------------------------
+           BRIGHTNESS
+        -------------------------------------------------------- */
 
         .slider-container {
             margin-top: 20px;
@@ -173,6 +197,7 @@
         .slider-header {
             display: flex;
             justify-content: space-between;
+
             margin-bottom: 10px;
         }
 
@@ -187,19 +212,27 @@
         input[type="range"] {
             width: 100%;
             height: 35px;
+
             accent-color: #007aff;
         }
 
-        /* Quick colours */
+
+        /* --------------------------------------------------------
+           QUICK COLOURS
+        -------------------------------------------------------- */
 
         .quick-colours {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
             gap: 10px;
         }
 
         .quick-colour {
             height: 55px;
+
             border-radius: 12px;
 
             border: 2px solid #333;
@@ -243,46 +276,64 @@
             background: #000000;
         }
 
-        /* Error */
+
+        /* --------------------------------------------------------
+           ERROR
+        -------------------------------------------------------- */
 
         .error {
             display: none;
 
             margin-top: 15px;
+
             padding: 12px;
 
             border-radius: 10px;
 
             background: #3a1c1c;
+
             color: #ff6b6b;
 
             font-size: 14px;
+
             line-height: 1.4;
         }
 
-        /* Info */
+
+        /* --------------------------------------------------------
+           INFO
+        -------------------------------------------------------- */
 
         .info {
             color: #888;
+
             font-size: 13px;
+
             line-height: 1.5;
         }
 
         .info strong {
             color: #bbb;
         }
+
     </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
     <h1>YD ESP32</h1>
-    <div class="subtitle">LED Controller</div>
+
+    <div class="subtitle">
+        LED Controller
+    </div>
 
 
-    <!-- Bluetooth -->
+    <!-- ========================================================
+         BLUETOOTH
+    ========================================================= -->
 
     <div class="card">
 
@@ -318,7 +369,9 @@
     </div>
 
 
-    <!-- Colour -->
+    <!-- ========================================================
+         COLOUR
+    ========================================================= -->
 
     <div class="card">
 
@@ -339,7 +392,9 @@
     </div>
 
 
-    <!-- Brightness -->
+    <!-- ========================================================
+         BRIGHTNESS
+    ========================================================= -->
 
     <div class="card">
 
@@ -375,7 +430,9 @@
     </div>
 
 
-    <!-- Quick colours -->
+    <!-- ========================================================
+         QUICK COLOURS
+    ========================================================= -->
 
     <div class="card">
 
@@ -422,7 +479,9 @@
     </div>
 
 
-    <!-- Information -->
+    <!-- ========================================================
+         INFO
+    ========================================================= -->
 
     <div class="card">
 
@@ -434,17 +493,22 @@
 
             <strong>Device:</strong>
             YD_ESP32
-            <br><br>
-
-            The app first checks for a previously
-            authorised YD_ESP32 and connects directly
-            if one exists.
 
             <br><br>
 
-            If this phone has never authorised the
-            device, Bluetooth permission is requested
-            for YD_ESP32.
+            The first connection asks for Bluetooth
+            permission.
+
+            <br><br>
+
+            Once authorised, the app can reconnect
+            directly to YD_ESP32 without showing
+            the Bluetooth device list.
+
+            <br><br>
+
+            Disconnecting manually prevents automatic
+            reconnection.
 
         </div>
 
@@ -455,964 +519,1089 @@
 
 <script>
 
-    /*
-     * ============================================================
-     * BLE CONFIGURATION
-     * ============================================================
-     */
 
-    const DEVICE_NAME = "YD_ESP32";
+/* ================================================================
+   BLE CONFIGURATION
+================================================================ */
 
-    const SERVICE_UUID =
-        "12345678-1234-5678-1234-56789abcdef0";
+const DEVICE_NAME = "YD_ESP32";
 
-    const RGB_CHARACTERISTIC_UUID =
-        "12345678-1234-5678-1234-56789abcdef1";
+const SERVICE_UUID =
+    "12345678-1234-5678-1234-56789abcdef0";
 
-
-    /*
-     * ============================================================
-     * STATE
-     * ============================================================
-     */
-
-    let bluetoothDevice = null;
-    let rgbCharacteristic = null;
-
-    let red = 255;
-    let green = 0;
-    let blue = 0;
-
-    let brightness = 100;
-
-    let reconnectTimer = null;
+const RGB_CHARACTERISTIC_UUID =
+    "12345678-1234-5678-1234-56789abcdef1";
 
 
-    /*
-     * ============================================================
-     * DOM
-     * ============================================================
-     */
+/* ================================================================
+   STATE
+================================================================ */
 
-    const statusElement =
-        document.getElementById("status");
+let bluetoothDevice = null;
 
-    const connectButton =
-        document.getElementById("connectButton");
+let rgbCharacteristic = null;
 
-    const errorElement =
-        document.getElementById("error");
+let red = 255;
+let green = 0;
+let blue = 0;
 
-    const preview =
-        document.getElementById("preview");
-
-    const colourPicker =
-        document.getElementById("colourPicker");
-
-    const brightnessSlider =
-        document.getElementById("brightness");
-
-    const brightnessValue =
-        document.getElementById("brightnessValue");
+let brightness = 100;
 
 
-    /*
-     * ============================================================
-     * STATUS
-     * ============================================================
-     */
+/*
+ * True when the user intentionally pressed
+ * Disconnect.
+ *
+ * This prevents automatic reconnect.
+ */
 
-    function setStatus(status) {
+let manualDisconnect = false;
 
-        statusElement.className = "status";
 
-        if (status === "connected") {
+/*
+ * Timer used for unexpected disconnects.
+ */
 
-            statusElement.textContent =
-                "Connected";
+let reconnectTimer = null;
 
-            statusElement.classList.add(
-                "connected"
-            );
 
-            connectButton.textContent =
-                "Disconnect";
+/* ================================================================
+   DOM
+================================================================ */
 
-            connectButton.classList.add(
-                "disconnect-button"
-            );
+const statusElement =
+    document.getElementById("status");
 
-        }
+const connectButton =
+    document.getElementById("connectButton");
 
-        else if (status === "connecting") {
+const errorElement =
+    document.getElementById("error");
 
-            statusElement.textContent =
-                "Connecting...";
+const preview =
+    document.getElementById("preview");
 
-            statusElement.classList.add(
-                "connecting"
-            );
+const colourPicker =
+    document.getElementById("colourPicker");
 
-            connectButton.textContent =
-                "Connecting...";
+const brightnessSlider =
+    document.getElementById("brightness");
 
-            connectButton.disabled = true;
+const brightnessValue =
+    document.getElementById("brightnessValue");
+
+
+/* ================================================================
+   STATUS
+================================================================ */
+
+function setStatus(status) {
+
+    statusElement.className = "status";
+
+    if (status === "connected") {
+
+        statusElement.textContent =
+            "Connected";
+
+        statusElement.classList.add(
+            "connected"
+        );
+
+        connectButton.textContent =
+            "Disconnect";
+
+        connectButton.classList.add(
+            "disconnect-button"
+        );
+
+        connectButton.disabled =
+            false;
+
+    }
+
+    else if (status === "connecting") {
+
+        statusElement.textContent =
+            "Connecting...";
+
+        statusElement.classList.add(
+            "connecting"
+        );
+
+        connectButton.textContent =
+            "Connecting...";
+
+        /*
+         * IMPORTANT:
+         *
+         * We no longer disable the button during
+         * the first connection request.
+         *
+         * This allows the user interaction to
+         * trigger Beacio's Bluetooth permission UI.
+         */
+
+        connectButton.disabled =
+            false;
+
+        connectButton.classList.remove(
+            "disconnect-button"
+        );
+
+    }
+
+    else {
+
+        statusElement.textContent =
+            "Disconnected";
+
+        statusElement.classList.add(
+            "disconnected"
+        );
+
+        connectButton.textContent =
+            "Connect";
+
+        connectButton.classList.remove(
+            "disconnect-button"
+        );
+
+        connectButton.disabled =
+            false;
+    }
+}
+
+
+/* ================================================================
+   ERROR
+================================================================ */
+
+function showError(message) {
+
+    console.error(message);
+
+    errorElement.textContent =
+        message;
+
+    errorElement.style.display =
+        "block";
+}
+
+
+function clearError() {
+
+    errorElement.textContent =
+        "";
+
+    errorElement.style.display =
+        "none";
+}
+
+
+/* ================================================================
+   COLOUR
+================================================================ */
+
+function hexToRgb(hex) {
+
+    hex = hex.replace("#", "");
+
+    return {
+
+        r: parseInt(
+            hex.substring(0, 2),
+            16
+        ),
+
+        g: parseInt(
+            hex.substring(2, 4),
+            16
+        ),
+
+        b: parseInt(
+            hex.substring(4, 6),
+            16
+        )
+    };
+}
+
+
+function updatePreview() {
+
+    preview.style.background =
+        `rgb(${red}, ${green}, ${blue})`;
+
+    const scale =
+        brightness / 100;
+
+    const r =
+        Math.round(red * scale);
+
+    const g =
+        Math.round(green * scale);
+
+    const b =
+        Math.round(blue * scale);
+
+    preview.style.boxShadow =
+        `0 0 35px rgba(${r}, ${g}, ${b}, 0.4)`;
+}
+
+
+/* ================================================================
+   SEND RGB
+================================================================ */
+
+async function sendRGB() {
+
+    if (!rgbCharacteristic) {
+        return;
+    }
+
+    const scale =
+        brightness / 100;
+
+    const r =
+        Math.round(red * scale);
+
+    const g =
+        Math.round(green * scale);
+
+    const b =
+        Math.round(blue * scale);
+
+    const data =
+        new Uint8Array([
+            r,
+            g,
+            b
+        ]);
+
+    try {
+
+        if (
+            typeof rgbCharacteristic
+                .writeValueWithResponse ===
+            "function"
+        ) {
+
+            await rgbCharacteristic
+                .writeValueWithResponse(data);
 
         }
 
         else {
 
-            statusElement.textContent =
-                "Disconnected";
-
-            statusElement.classList.add(
-                "disconnected"
-            );
-
-            connectButton.textContent =
-                "Connect";
-
-            connectButton.classList.remove(
-                "disconnect-button"
-            );
-
-            connectButton.disabled = false;
-        }
-    }
-
-
-    /*
-     * ============================================================
-     * ERRORS
-     * ============================================================
-     */
-
-    function showError(message) {
-
-        console.error(message);
-
-        errorElement.textContent =
-            message;
-
-        errorElement.style.display =
-            "block";
-    }
-
-
-    function clearError() {
-
-        errorElement.textContent = "";
-
-        errorElement.style.display =
-            "none";
-    }
-
-
-    /*
-     * ============================================================
-     * COLOUR
-     * ============================================================
-     */
-
-    function hexToRgb(hex) {
-
-        hex = hex.replace("#", "");
-
-        return {
-            r: parseInt(
-                hex.substring(0, 2),
-                16
-            ),
-
-            g: parseInt(
-                hex.substring(2, 4),
-                16
-            ),
-
-            b: parseInt(
-                hex.substring(4, 6),
-                16
-            )
-        };
-    }
-
-
-    function updatePreview() {
-
-        preview.style.background =
-            `rgb(${red}, ${green}, ${blue})`;
-
-        const scale =
-            brightness / 100;
-
-        const glowR =
-            Math.round(red * scale);
-
-        const glowG =
-            Math.round(green * scale);
-
-        const glowB =
-            Math.round(blue * scale);
-
-        preview.style.boxShadow =
-            `0 0 35px rgba(${glowR}, ${glowG}, ${glowB}, 0.4)`;
-    }
-
-
-    /*
-     * ============================================================
-     * SEND RGB TO ESP32
-     * ============================================================
-     */
-
-    async function sendRGB() {
-
-        if (!rgbCharacteristic) {
-            return;
+            await rgbCharacteristic
+                .writeValue(data);
         }
 
-        const scale =
-            brightness / 100;
-
-        const r =
-            Math.round(red * scale);
-
-        const g =
-            Math.round(green * scale);
-
-        const b =
-            Math.round(blue * scale);
-
-        const data =
-            new Uint8Array([
-                r,
-                g,
-                b
-            ]);
-
-        try {
-
-            if (
-                typeof rgbCharacteristic
-                    .writeValueWithResponse === "function"
-            ) {
-
-                await rgbCharacteristic
-                    .writeValueWithResponse(data);
-
-            }
-
-            else {
-
-                await rgbCharacteristic
-                    .writeValue(data);
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Failed to send RGB:",
-                error
-            );
-        }
     }
 
+    catch (error) {
 
-    /*
-     * ============================================================
-     * CONNECT TO A SPECIFIC DEVICE
-     * ============================================================
-     */
-
-    async function connectToESP32(device) {
-
-        clearError();
-
-        if (!device) {
-            throw new Error(
-                "YD_ESP32 device was not found."
-            );
-        }
-
-        /*
-         * Extra safety check.
-         *
-         * We ONLY accept YD_ESP32.
-         */
-
-        if (device.name !== DEVICE_NAME) {
-
-            throw new Error(
-                "The selected Bluetooth device is not YD_ESP32."
-            );
-        }
-
-        bluetoothDevice =
-            device;
-
-        /*
-         * Listen for disconnects.
-         */
-
-        bluetoothDevice.addEventListener(
-            "gattserverdisconnected",
-            handleDisconnect
+        console.error(
+            "Failed to send RGB:",
+            error
         );
-
-        setStatus("connecting");
-
-        /*
-         * Direct GATT connection.
-         *
-         * This does NOT display a Bluetooth
-         * device picker.
-         */
-
-        const server =
-            await bluetoothDevice.gatt.connect();
-
-        /*
-         * Get our custom BLE service.
-         */
-
-        const service =
-            await server.getPrimaryService(
-                SERVICE_UUID
-            );
-
-        /*
-         * Get RGB characteristic.
-         */
-
-        rgbCharacteristic =
-            await service.getCharacteristic(
-                RGB_CHARACTERISTIC_UUID
-            );
-
-        setStatus("connected");
-
-        /*
-         * Send current colour.
-         */
-
-        await sendRGB();
-
-        return true;
     }
+}
 
 
-    /*
-     * ============================================================
-     * FIND PREVIOUSLY AUTHORISED ESP32
-     * ============================================================
-     */
+/* ================================================================
+   CONNECT TO SPECIFIC DEVICE
+================================================================ */
 
-    async function findAuthorisedESP32() {
+async function connectToESP32(device) {
 
-        /*
-         * getDevices() returns devices that this
-         * browser/site has already been granted
-         * permission to use.
-         *
-         * IMPORTANT:
-         *
-         * This does NOT open a Bluetooth picker.
-         */
+    clearError();
 
-        if (
-            typeof navigator.bluetooth.getDevices !==
-            "function"
-        ) {
+    if (!device) {
 
-            return null;
-        }
-
-        try {
-
-            const devices =
-                await navigator.bluetooth.getDevices();
-
-            console.log(
-                "Previously authorised devices:",
-                devices
-            );
-
-            /*
-             * Only accept EXACTLY YD_ESP32.
-             */
-
-            const esp32 =
-                devices.find(
-                    device =>
-                        device.name === DEVICE_NAME
-                );
-
-            return esp32 || null;
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "getDevices() failed:",
-                error
-            );
-
-            return null;
-        }
-    }
-
-
-    /*
-     * ============================================================
-     * FIRST-TIME CONNECTION
-     * ============================================================
-     */
-
-    async function requestESP32() {
-
-        clearError();
-
-        /*
-         * IMPORTANT:
-         *
-         * There is NO acceptAllDevices:true here.
-         *
-         * The browser is explicitly asked for
-         * the device named YD_ESP32.
-         */
-
-        const device =
-            await navigator.bluetooth.requestDevice({
-
-                filters: [
-                    {
-                        name: DEVICE_NAME
-                    }
-                ],
-
-                optionalServices: [
-                    SERVICE_UUID
-                ]
-            });
-
-        /*
-         * Safety check.
-         */
-
-        if (device.name !== DEVICE_NAME) {
-
-            throw new Error(
-                "Only YD_ESP32 can be connected."
-            );
-        }
-
-        return await connectToESP32(
-            device
+        throw new Error(
+            "YD_ESP32 was not found."
         );
     }
 
 
     /*
-     * ============================================================
-     * MAIN CONNECT BUTTON
-     * ============================================================
+     * Absolute safety check.
+     *
+     * We will NEVER connect to another
+     * device name.
      */
 
-    async function connectButtonHandler() {
+    if (device.name !== DEVICE_NAME) {
 
-        clearError();
-
-        /*
-         * If already connected, disconnect.
-         */
-
-        if (
-            bluetoothDevice &&
-            bluetoothDevice.gatt &&
-            bluetoothDevice.gatt.connected
-        ) {
-
-            bluetoothDevice.gatt.disconnect();
-
-            return;
-        }
-
-        /*
-         * Check that Web Bluetooth exists.
-         */
-
-        if (
-            !navigator.bluetooth
-        ) {
-
-            showError(
-                "Web Bluetooth is not available. " +
-                "Make sure you are running this page through " +
-                "Beacio or another browser that supports Web Bluetooth."
-            );
-
-            return;
-        }
-
-        connectButton.disabled =
-            true;
-
-        try {
-
-            /*
-             * ----------------------------------------------------
-             * STEP 1
-             *
-             * Look for an already-authorised YD_ESP32.
-             *
-             * NO DEVICE PICKER.
-             * ----------------------------------------------------
-             */
-
-            const authorisedDevice =
-                await findAuthorisedESP32();
-
-            if (authorisedDevice) {
-
-                console.log(
-                    "Found authorised YD_ESP32."
-                );
-
-                await connectToESP32(
-                    authorisedDevice
-                );
-
-                return;
-            }
-
-
-            /*
-             * ----------------------------------------------------
-             * STEP 2
-             *
-             * YD_ESP32 has not been authorised yet.
-             *
-             * We have to request permission.
-             *
-             * The filter is EXACTLY:
-             *
-             *      YD_ESP32
-             *
-             * ----------------------------------------------------
-             */
-
-            console.log(
-                "YD_ESP32 has not been authorised yet."
-            );
-
-            await requestESP32();
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Bluetooth connection failed:",
-                error
-            );
-
-            setStatus("disconnected");
-
-            /*
-             * User cancelling the Bluetooth picker
-             * isn't really an application error.
-             */
-
-            if (
-                error.name ===
-                "NotFoundError"
-            ) {
-
-                showError(
-                    "No YD_ESP32 device was selected."
-                );
-
-            }
-
-            else {
-
-                showError(
-                    error.message ||
-                    "Bluetooth connection failed."
-                );
-            }
-        }
-
-        finally {
-
-            connectButton.disabled =
-                false;
-
-            if (
-                bluetoothDevice &&
-                bluetoothDevice.gatt &&
-                bluetoothDevice.gatt.connected
-            ) {
-
-                setStatus("connected");
-            }
-
-            else {
-
-                setStatus("disconnected");
-            }
-        }
+        throw new Error(
+            "The selected device is not YD_ESP32."
+        );
     }
 
 
+    bluetoothDevice =
+        device;
+
+
     /*
-     * ============================================================
-     * DISCONNECT HANDLER
-     * ============================================================
+     * Remove any old disconnect listener
+     * before adding a new one.
      */
 
-    function handleDisconnect() {
+    bluetoothDevice.removeEventListener(
+        "gattserverdisconnected",
+        handleDisconnect
+    );
+
+    bluetoothDevice.addEventListener(
+        "gattserverdisconnected",
+        handleDisconnect
+    );
+
+
+    setStatus("connecting");
+
+
+    /*
+     * Direct GATT connection.
+     *
+     * NO DEVICE PICKER HERE.
+     */
+
+    const server =
+        await bluetoothDevice.gatt.connect();
+
+
+    /*
+     * Get our custom service.
+     */
+
+    const service =
+        await server.getPrimaryService(
+            SERVICE_UUID
+        );
+
+
+    /*
+     * Get RGB characteristic.
+     */
+
+    rgbCharacteristic =
+        await service.getCharacteristic(
+            RGB_CHARACTERISTIC_UUID
+        );
+
+
+    /*
+     * Successfully connected.
+     */
+
+    setStatus("connected");
+
+
+    /*
+     * Send current colour.
+     */
+
+    await sendRGB();
+}
+
+
+/* ================================================================
+   FIND AUTHORISED YD_ESP32
+================================================================ */
+
+async function findAuthorisedESP32() {
+
+    /*
+     * getDevices() does NOT open a picker.
+     *
+     * It returns devices that this site has
+     * already been granted access to.
+     */
+
+    if (
+        typeof navigator.bluetooth.getDevices !==
+        "function"
+    ) {
+
+        return null;
+    }
+
+
+    try {
+
+        const devices =
+            await navigator.bluetooth.getDevices();
+
 
         console.log(
-            "YD_ESP32 disconnected."
+            "Authorised Bluetooth devices:",
+            devices
         );
+
+
+        /*
+         * Exact name match.
+         */
+
+        const esp32 =
+            devices.find(
+                device =>
+                    device.name === DEVICE_NAME
+            );
+
+
+        return esp32 || null;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "getDevices() failed:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+/* ================================================================
+   FIRST-TIME BLUETOOTH REQUEST
+================================================================ */
+
+async function requestESP32() {
+
+    clearError();
+
+
+    /*
+     * IMPORTANT:
+     *
+     * There is NO acceptAllDevices:true.
+     *
+     * We specifically request YD_ESP32.
+     */
+
+    const device =
+        await navigator.bluetooth.requestDevice({
+
+            filters: [
+                {
+                    name: DEVICE_NAME
+                }
+            ],
+
+            optionalServices: [
+                SERVICE_UUID
+            ]
+        });
+
+
+    /*
+     * Safety check.
+     */
+
+    if (device.name !== DEVICE_NAME) {
+
+        throw new Error(
+            "Only YD_ESP32 can be connected."
+        );
+    }
+
+
+    return device;
+}
+
+
+/* ================================================================
+   CONNECT BUTTON
+================================================================ */
+
+async function connectButtonHandler() {
+
+    clearError();
+
+
+    /*
+     * ------------------------------------------------------------
+     * ALREADY CONNECTED
+     * ------------------------------------------------------------
+     */
+
+    if (
+        bluetoothDevice &&
+        bluetoothDevice.gatt &&
+        bluetoothDevice.gatt.connected
+    ) {
+
+        /*
+         * User intentionally disconnecting.
+         */
+
+        manualDisconnect =
+            true;
+
+
+        /*
+         * Cancel any pending reconnect.
+         */
+
+        if (reconnectTimer) {
+
+            clearTimeout(
+                reconnectTimer
+            );
+
+            reconnectTimer =
+                null;
+        }
+
+
+        /*
+         * Clear characteristic before disconnect.
+         */
 
         rgbCharacteristic =
             null;
+
+
+        /*
+         * Disconnect GATT.
+         */
+
+        bluetoothDevice.gatt.disconnect();
+
 
         setStatus(
             "disconnected"
         );
 
-        /*
-         * Try to reconnect automatically.
-         */
-
-        scheduleReconnect();
+        return;
     }
 
 
     /*
-     * ============================================================
-     * AUTOMATIC RECONNECT
-     * ============================================================
+     * ------------------------------------------------------------
+     * CHECK WEB BLUETOOTH
+     * ------------------------------------------------------------
      */
 
-    function scheduleReconnect() {
+    if (!navigator.bluetooth) {
 
-        /*
-         * Don't create multiple timers.
-         */
+        showError(
+            "Web Bluetooth is unavailable. " +
+            "Open the page through Beacio."
+        );
 
-        if (reconnectTimer) {
-            return;
-        }
-
-        reconnectTimer =
-            setTimeout(
-                async () => {
-
-                    reconnectTimer =
-                        null;
-
-                    await automaticReconnect();
-
-                },
-                3000
-            );
+        return;
     }
 
 
-    async function automaticReconnect() {
+    /*
+     * A new connection attempt is not
+     * a manual disconnect.
+     */
+
+    manualDisconnect =
+        false;
+
+
+    /*
+     * ------------------------------------------------------------
+     * FIRST TRY: PREVIOUSLY AUTHORISED DEVICE
+     * ------------------------------------------------------------
+     */
+
+    try {
+
+        const authorisedDevice =
+            await findAuthorisedESP32();
+
+
+        if (authorisedDevice) {
+
+            console.log(
+                "Found previously authorised YD_ESP32."
+            );
+
+
+            /*
+             * DIRECT CONNECTION.
+             *
+             * No Bluetooth picker.
+             */
+
+            await connectToESP32(
+                authorisedDevice
+            );
+
+            return;
+        }
+
 
         /*
-         * We can only automatically reconnect
-         * to devices that have already been
-         * authorised.
+         * --------------------------------------------------------
+         * SECOND TRY: FIRST-TIME AUTHORISATION
+         * --------------------------------------------------------
          */
+
+        console.log(
+            "YD_ESP32 has not been authorised."
+        );
+
+
+        setStatus(
+            "connecting"
+        );
+
+
+        /*
+         * This is the ONLY place where the
+         * Bluetooth chooser can appear.
+         */
+
+        const device =
+            await requestESP32();
+
+
+        /*
+         * Now connect to the device returned
+         * by the permission request.
+         */
+
+        await connectToESP32(
+            device
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Bluetooth connection failed:",
+            error
+        );
+
+
+        setStatus(
+            "disconnected"
+        );
+
+
+        if (
+            error.name ===
+            "NotFoundError"
+        ) {
+
+            showError(
+                "No YD_ESP32 device was selected."
+            );
+
+        }
+
+        else {
+
+            showError(
+                error.message ||
+                "Bluetooth connection failed."
+            );
+        }
+    }
+}
+
+
+/* ================================================================
+   DISCONNECT EVENT
+================================================================ */
+
+function handleDisconnect() {
+
+    console.log(
+        "YD_ESP32 disconnected."
+    );
+
+
+    rgbCharacteristic =
+        null;
+
+
+    setStatus(
+        "disconnected"
+    );
+
+
+    /*
+     * If the user deliberately disconnected,
+     * DO NOT reconnect.
+     */
+
+    if (manualDisconnect) {
+
+        console.log(
+            "Manual disconnect - not reconnecting."
+        );
+
+        return;
+    }
+
+
+    /*
+     * Otherwise it was an unexpected
+     * disconnect.
+     */
+
+    scheduleReconnect();
+}
+
+
+/* ================================================================
+   AUTOMATIC RECONNECT
+================================================================ */
+
+function scheduleReconnect() {
+
+    /*
+     * Don't schedule multiple timers.
+     */
+
+    if (reconnectTimer) {
+        return;
+    }
+
+
+    /*
+     * Wait 3 seconds before reconnecting.
+     */
+
+    reconnectTimer =
+        setTimeout(
+            async () => {
+
+                reconnectTimer =
+                    null;
+
+
+                /*
+                 * Check whether the user has
+                 * manually disconnected while
+                 * waiting.
+                 */
+
+                if (manualDisconnect) {
+                    return;
+                }
+
+
+                await automaticReconnect();
+
+            },
+            3000
+        );
+}
+
+
+async function automaticReconnect() {
+
+    if (manualDisconnect) {
+        return;
+    }
+
+
+    const device =
+        await findAuthorisedESP32();
+
+
+    if (!device) {
+
+        console.log(
+            "No authorised YD_ESP32 found."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        console.log(
+            "Attempting automatic reconnect..."
+        );
+
+
+        await connectToESP32(
+            device
+        );
+
+
+        console.log(
+            "Automatically reconnected."
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Automatic reconnect failed:",
+            error
+        );
+
+
+        setStatus(
+            "disconnected"
+        );
+
+
+        if (!manualDisconnect) {
+            scheduleReconnect();
+        }
+    }
+}
+
+
+/* ================================================================
+   SILENT STARTUP CONNECTION
+================================================================ */
+
+async function automaticConnect() {
+
+    /*
+     * IMPORTANT:
+     *
+     * This NEVER opens the Bluetooth picker.
+     *
+     * It only looks for a previously authorised
+     * YD_ESP32.
+     */
+
+    if (
+        !navigator.bluetooth ||
+        typeof navigator.bluetooth.getDevices !==
+        "function"
+    ) {
+
+        console.log(
+            "Silent Bluetooth connection unavailable."
+        );
+
+        return;
+    }
+
+
+    try {
 
         const device =
             await findAuthorisedESP32();
 
+
         if (!device) {
 
             console.log(
-                "No authorised YD_ESP32 available."
+                "No previously authorised YD_ESP32."
             );
 
             return;
         }
 
-        try {
 
-            await connectToESP32(
-                device
-            );
+        manualDisconnect =
+            false;
 
-            console.log(
-                "Automatically reconnected."
-            );
 
-        }
+        console.log(
+            "Connecting to previously authorised YD_ESP32..."
+        );
 
-        catch (error) {
 
-            console.error(
-                "Automatic reconnect failed:",
-                error
-            );
+        await connectToESP32(
+            device
+        );
 
-            setStatus(
-                "disconnected"
-            );
-
-            scheduleReconnect();
-        }
     }
 
+    catch (error) {
 
-    /*
-     * ============================================================
-     * STARTUP
-     * ============================================================
-     */
+        console.error(
+            "Startup connection failed:",
+            error
+        );
 
-    async function automaticConnect() {
 
-        /*
-         * This is intentionally silent.
-         *
-         * It NEVER opens a Bluetooth picker.
-         *
-         * If YD_ESP32 has already been authorised,
-         * we connect automatically.
-         */
-
-        if (
-            !navigator.bluetooth ||
-            typeof navigator.bluetooth.getDevices !==
-            "function"
-        ) {
-
-            console.log(
-                "Silent Bluetooth connection unavailable."
-            );
-
-            return;
-        }
-
-        try {
-
-            const device =
-                await findAuthorisedESP32();
-
-            if (!device) {
-
-                console.log(
-                    "YD_ESP32 has not been authorised yet."
-                );
-
-                return;
-            }
-
-            console.log(
-                "Automatically connecting to YD_ESP32..."
-            );
-
-            await connectToESP32(
-                device
-            );
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Automatic connection failed:",
-                error
-            );
-
-            setStatus(
-                "disconnected"
-            );
-        }
+        setStatus(
+            "disconnected"
+        );
     }
+}
 
 
-    /*
-     * ============================================================
-     * COLOUR PICKER
-     * ============================================================
-     */
+/* ================================================================
+   COLOUR PICKER
+================================================================ */
 
-    colourPicker.addEventListener(
-        "input",
-        async () => {
+colourPicker.addEventListener(
+    "input",
+    async () => {
 
-            const colour =
-                hexToRgb(
-                    colourPicker.value
-                );
+        const colour =
+            hexToRgb(
+                colourPicker.value
+            );
 
-            red =
-                colour.r;
 
-            green =
-                colour.g;
+        red =
+            colour.r;
 
-            blue =
-                colour.b;
+        green =
+            colour.g;
 
-            updatePreview();
+        blue =
+            colour.b;
 
-            await sendRGB();
+
+        updatePreview();
+
+        await sendRGB();
+    }
+);
+
+
+/* ================================================================
+   BRIGHTNESS
+================================================================ */
+
+brightnessSlider.addEventListener(
+    "input",
+    async () => {
+
+        brightness =
+            parseInt(
+                brightnessSlider.value,
+                10
+            );
+
+
+        brightnessValue.textContent =
+            `${brightness}%`;
+
+
+        updatePreview();
+
+        await sendRGB();
+    }
+);
+
+
+/* ================================================================
+   QUICK COLOURS
+================================================================ */
+
+document
+    .querySelectorAll(".quick-colour")
+    .forEach(
+        element => {
+
+            element.addEventListener(
+                "click",
+                async () => {
+
+                    const colour =
+                        element.dataset.colour;
+
+
+                    colourPicker.value =
+                        colour;
+
+
+                    const rgb =
+                        hexToRgb(
+                            colour
+                        );
+
+
+                    red =
+                        rgb.r;
+
+                    green =
+                        rgb.g;
+
+                    blue =
+                        rgb.b;
+
+
+                    updatePreview();
+
+                    await sendRGB();
+                }
+            );
         }
     );
 
 
-    /*
-     * ============================================================
-     * BRIGHTNESS
-     * ============================================================
-     */
+/* ================================================================
+   CONNECT BUTTON
+================================================================ */
 
-    brightnessSlider.addEventListener(
-        "input",
-        async () => {
-
-            brightness =
-                parseInt(
-                    brightnessSlider.value,
-                    10
-                );
-
-            brightnessValue.textContent =
-                `${brightness}%`;
-
-            updatePreview();
-
-            await sendRGB();
-        }
-    );
+connectButton.addEventListener(
+    "click",
+    connectButtonHandler
+);
 
 
-    /*
-     * ============================================================
-     * QUICK COLOURS
-     * ============================================================
-     */
+/* ================================================================
+   SERVICE WORKER
+================================================================ */
 
-    document
-        .querySelectorAll(".quick-colour")
-        .forEach(
-            element => {
+if (
+    "serviceWorker" in navigator
+) {
 
-                element.addEventListener(
-                    "click",
-                    async () => {
+    window.addEventListener(
+        "load",
+        () => {
 
-                        const colour =
-                            element.dataset.colour;
+            navigator.serviceWorker
+                .register("./sw.js")
 
-                        colourPicker.value =
-                            colour;
+                .then(
+                    registration => {
 
-                        const rgb =
-                            hexToRgb(
-                                colour
-                            );
+                        console.log(
+                            "Service worker registered:",
+                            registration.scope
+                        );
+                    }
+                )
 
-                        red =
-                            rgb.r;
+                .catch(
+                    error => {
 
-                        green =
-                            rgb.g;
-
-                        blue =
-                            rgb.b;
-
-                        updatePreview();
-
-                        await sendRGB();
+                        console.error(
+                            "Service worker registration failed:",
+                            error
+                        );
                     }
                 );
-            }
-        );
-
-
-    /*
-     * ============================================================
-     * CONNECT BUTTON
-     * ============================================================
-     */
-
-    connectButton.addEventListener(
-        "click",
-        connectButtonHandler
+        }
     );
+}
 
 
-    /*
-     * ============================================================
-     * SERVICE WORKER / PWA
-     * ============================================================
-     */
+/* ================================================================
+   INITIAL UI
+================================================================ */
 
-    if (
-        "serviceWorker" in navigator
-    ) {
-
-        window.addEventListener(
-            "load",
-            () => {
-
-                navigator.serviceWorker
-                    .register("./sw.js")
-                    .then(
-                        registration => {
-
-                            console.log(
-                                "Service worker registered:",
-                                registration.scope
-                            );
-
-                        }
-                    )
-                    .catch(
-                        error => {
-
-                            console.error(
-                                "Service worker registration failed:",
-                                error
-                            );
-
-                        }
-                    );
-
-            }
-        );
-    }
+updatePreview();
 
 
-    /*
-     * ============================================================
-     * INITIAL UI
-     * ============================================================
-     */
+/* ================================================================
+   TRY SILENT CONNECTION
+================================================================ */
 
-    updatePreview();
-
-
-    /*
-     * ============================================================
-     * TRY SILENT AUTO-CONNECTION
-     * ============================================================
-     */
-
-    automaticConnect();
+automaticConnect();
 
 </script>
 
